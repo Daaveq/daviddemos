@@ -10,7 +10,7 @@ This file is the durable working memory for the David Demos landing-page project
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
 - GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`.
-- Public site: not configured yet.
+- Temporary public preview: `https://amongst-laptop-foto-tend.trycloudflare.com`; this account-less quick tunnel has no uptime guarantee and lasts only while the local isolated server and tunnel process remain running.
 
 ## Product Direction
 
