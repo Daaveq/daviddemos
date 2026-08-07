@@ -6,19 +6,21 @@ This file is the durable working memory for the David Demos landing-page project
 
 - Project name: David Demos.
 - Purpose: a polished landing page and portfolio hub for all demos built in this workspace.
-- Current state: the previous-computer landing page has been recovered as the root application and is ready for local iteration.
+- Current state: the root landing page has been rebuilt as a responsive, scroll-driven 8-bit experience and is ready for review.
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
 - GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`.
-- Temporary public preview: `https://amongst-laptop-foto-tend.trycloudflare.com`; this account-less quick tunnel has no uptime guarantee and lasts only while the local isolated server and tunnel process remain running.
+- Temporary public preview: `https://amongst-laptop-foto-tend.trycloudflare.com`; this account-less quick tunnel has no uptime guarantee and currently serves the earlier recovered baseline from an isolated temporary web root.
 
 ## Product Direction
 
 - The landing page should present all demos in one coherent portfolio experience.
 - Each demo should retain a clear identity, purpose, and direct path to exploration.
 - Demo claims and availability must be grounded in the corresponding source project.
-- `index.html` is the canonical recovered “Making AI less scary” page. It embeds its portrait and loads Three.js and Space Grotesk from public CDNs at runtime.
-- `ai-compass.html` preserves the separate AI Compass experiment at `/ai-compass.html`.
+- `index.html` opens with “AI can feel overwhelming sometimes” inside a pixel particle field. Scrolling dissolves the intro into David's portrait and plain-language biography, followed by Demos, Articles, and Tools placeholder cards.
+- `assets/david-pixel.png` is the transparent 8-bit portrait used in the about section. `assets/david-pixel-source.png` retains the generated chroma-key source.
+- The page uses a custom CSS pixel cursor on precise pointers, normal touch behavior on coarse pointers, canvas particles, scroll-driven transforms, and reduced-motion support.
+- `ai-compass.html` remains available at `/ai-compass.html` but is intentionally unlinked and out of scope for now.
 - `Previous Computer/` is the untouched recovery source archive and should remain available until the promoted site has been fully reviewed.
 
 ## Operating Rules
@@ -43,20 +45,21 @@ This file is the durable working memory for the David Demos landing-page project
 - Build this repository as the landing page for all demos.
 - Adapt the process conventions without carrying over insurance-specific product, safety, runtime, or architecture rules.
 - Use `https://github.com/Daaveq/daviddemos` as the canonical GitHub repository.
-- Preserve the recovered site's appearance and behavior as the initial baseline before making product or visual redesign decisions.
+- Use an 8-bit visual system across the landing page, including typography, cursor, particles, cards, and David's portrait.
+- Keep the main narrative practical and anti-buzzword: show what David built, what worked, and explain it simply.
+- Keep AI Compass unlinked and out of the primary experience for now.
 
 ## Open Questions
 
 - Which demos belong in the first release and where their source projects live.
 - The intended audience and primary call to action.
-- Visual direction, brand assets, copy, and preferred domain.
 - Hosting target, analytics, and contact method.
-- Whether the AI Compass experiment should become part of the primary landing-page navigation.
-- Which recovered copy, name, portrait, and demo content should be replaced or adapted for David.
+- Which concrete demos, articles, and tools should replace the current placeholders.
+- Whether the temporary Cloudflare preview should be updated to publish the newly generated portrait and redesigned page.
 
 ## Next Steps
 
 - Inventory the available demo projects and extract accurate titles, descriptions, imagery, and live links.
-- Agree on the first-release information architecture and visual direction.
-- Review the recovered page locally and agree on the first content, identity, and navigation changes.
+- Review the 8-bit page locally and refine pacing, copy, palette, and portrait treatment.
+- Agree on the first-release information architecture and replace placeholder resources.
 - Decide whether to retain the single-file static architecture or migrate after the baseline is reviewed.

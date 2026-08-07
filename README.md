@@ -1,6 +1,6 @@
 # David Demos
 
-Recovered static landing-page workspace for David's demos.
+An 8-bit personal landing page for David's AI demos, articles, and tools.
 
 ## Run locally
 
@@ -12,8 +12,8 @@ npm run dev
 
 Then open:
 
-- Main recovered site: `http://localhost:4173/`
-- AI Compass experiment: `http://localhost:4173/ai-compass.html`
+- Main site: `http://localhost:4173/`
+- Archived AI Compass experiment: `http://localhost:4173/ai-compass.html`
 
 Stop the server with `Ctrl+C`.
 
@@ -27,9 +27,11 @@ The check validates both HTML entry points, compiles their inline JavaScript, an
 
 ## Current structure
 
-- `index.html`: canonical “Making AI less scary” landing page recovered from the previous computer
-- `ai-compass.html`: standalone AI Compass experiment
+- `index.html`: scroll-driven 8-bit landing page with a canvas particle intro, David introduction, and resource placeholders
+- `assets/david-pixel.png`: transparent generated pixel-art portrait used by the landing page
+- `assets/david-pixel-source.png`: chroma-key generation source retained for future edits
+- `ai-compass.html`: standalone archived AI Compass experiment, currently unlinked from the main experience
 - `Previous Computer/`: untouched source archive from the previous machine
 - `scripts/check-site.mjs`: zero-dependency static verification
 
-The main page embeds its portrait directly in the HTML. Three.js and Space Grotesk are loaded from public CDNs at runtime, so the animated presentation requires an internet connection.
+The main page has no JavaScript runtime dependencies. Its Press Start 2P and VT323 typefaces load from Google Fonts; local fallback fonts keep the page usable if they are unavailable.
