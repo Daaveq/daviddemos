@@ -58,4 +58,5 @@ Before declaring a work session complete:
 - Prefer a polished, fast, accessible experience with responsive layouts and clear paths into each demo.
 - Reuse shared visual and interaction patterns intentionally, without erasing the identity of individual demos.
 - When linking to live demos, verify destinations and provide a graceful state for demos that are not yet public.
-- Define framework-specific checks in this file once the application stack is selected.
+- The recovered application is currently a dependency-free static HTML site served locally with Python's built-in HTTP server through `npm run dev`.
+- Run `npm run check` for normal static validation. For interaction or layout changes, also verify the affected user path in a browser at desktop and mobile widths.

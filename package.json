@@ -1,0 +1,10 @@
+{
+  "name": "david-demos",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "python3 -m http.server 4173 --bind 127.0.0.1",
+    "start": "python3 -m http.server 4173 --bind 127.0.0.1",
+    "check": "node scripts/check-site.mjs"
+  }
+}

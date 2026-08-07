@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Compass — Find your place on the AI journey</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --card: #1a1d27;
+    --card-hover: #232736;
+    --text: #eef0f6;
+    --muted: #9aa1b5;
+    --accent: #7c6cff;
+    --accent-soft: rgba(124,108,255,.15);
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --radius: 18px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: radial-gradient(1200px 800px at 70% -10%, #1c2040 0%, var(--bg) 55%);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .app { width: 100%; max-width: 640px; }
+  .screen { display: none; animation: fadeUp .45s ease both; }
+  .screen.active { display: block; }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(14px);} to { opacity:1; transform:none;} }
+
+  /* ---------- Intro ---------- */
+  .hero { text-align:center; padding: 48px 8px 8px; }
+  .hero .compass { font-size: 64px; display:block; margin-bottom: 18px; }
+  .hero h1 { font-size: 34px; letter-spacing:-.5px; margin-bottom: 12px; }
+  .hero p { color: var(--muted); font-size: 17px; line-height: 1.6; max-width: 480px; margin: 0 auto 28px; }
+  .pill-row { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom: 32px; }
+  .pill { background: var(--card); border:1px solid #2a2e3d; color: var(--muted); font-size:13px; padding:6px 14px; border-radius: 99px; }
+
+  .btn {
+    display:inline-block; background: var(--accent); color:#fff; border:none; cursor:pointer;
+    font-size: 16px; font-weight:600; padding: 14px 34px; border-radius: 99px;
+    transition: transform .15s ease, box-shadow .15s ease;
+    box-shadow: 0 8px 24px rgba(124,108,255,.35);
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(124,108,255,.45); }
+  .btn.secondary { background: var(--card); box-shadow:none; border:1px solid #2a2e3d; color: var(--text); }
+
+  /* ---------- Quiz ---------- */
+  .topbar { display:flex; align-items:center; gap:14px; margin-bottom: 26px; }
+  .progress-track { flex:1; height: 8px; background: var(--card); border-radius: 99px; overflow:hidden; }
+  .progress-fill { height:100%; width:0%; background: linear-gradient(90deg, var(--accent), #a78bfa); border-radius:99px; transition: width .4s ease; }
+  .step-label { font-size: 13px; color: var(--muted); white-space:nowrap; }
+  .area-tag { display:inline-block; background: var(--accent-soft); color:#b6acff; font-size:12px; font-weight:600; letter-spacing:.4px; text-transform:uppercase; padding:5px 12px; border-radius:99px; margin-bottom:16px; }
+  .q-text { font-size: 21px; line-height: 1.5; font-weight: 600; margin-bottom: 24px; }
+  .opt {
+    display:block; width:100%; text-align:left; background: var(--card); color: var(--text);
+    border: 1px solid #2a2e3d; border-radius: var(--radius); padding: 16px 18px; font-size: 15.5px;
+    line-height:1.45; cursor:pointer; margin-bottom: 12px; transition: all .15s ease;
+  }
+  .opt:hover { background: var(--card-hover); border-color: var(--accent); transform: translateX(4px); }
+  .opt.picked { border-color: var(--accent); background: var(--accent-soft); }
+  .opt.dim { opacity: .45; pointer-events:none; }
+
+  .feedback {
+    border-radius: var(--radius); padding: 16px 18px; margin-top: 6px; margin-bottom: 16px;
+    font-size: 15px; line-height:1.55; display:none; animation: fadeUp .3s ease both;
+  }
+  .feedback.show { display:block; }
+  .feedback.good { background: rgba(74,222,128,.1); border:1px solid rgba(74,222,128,.35); }
+  .feedback.info { background: rgba(251,191,36,.08); border:1px solid rgba(251,191,36,.3); }
+  .feedback b { display:block; margin-bottom:4px; }
+  .next-row { text-align:right; }
+
+  /* ---------- Results ---------- */
+  h2 { font-size: 26px; margin-bottom: 6px; letter-spacing:-.3px; }
+  .subtitle { color: var(--muted); margin-bottom: 26px; line-height:1.55; }
+  .archetype-card {
+    background: linear-gradient(135deg, #232048, #1a1d27 60%);
+    border: 1px solid #35315e; border-radius: var(--radius); padding: 26px; text-align:center; margin-bottom: 26px;
+  }
+  .archetype-card .emoji { font-size: 44px; display:block; margin-bottom: 8px; }
+  .archetype-card h3 { font-size: 24px; margin-bottom: 6px; }
+  .archetype-card p { color: var(--muted); font-size: 15px; line-height: 1.55; }
+
+  .skill-row { display:flex; align-items:center; gap: 12px; margin-bottom: 14px; }
+  .skill-name { width: 190px; font-size: 14px; color: var(--text); flex-shrink:0; }
+  .skill-track { flex:1; height: 10px; background: var(--card); border-radius:99px; overflow:hidden; }
+  .skill-fill { height:100%; border-radius:99px; background: linear-gradient(90deg, var(--accent), #a78bfa); width:0%; transition: width .8s cubic-bezier(.2,.8,.2,1); }
+  .skill-lvl { width: 60px; text-align:right; font-size: 13px; color: var(--muted); flex-shrink:0; }
+  .section-label { font-size:13px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); margin: 22px 0 14px; }
+
+  /* ---------- Goals ---------- */
+  .goal-card {
+    display:block; width:100%; text-align:left; background: var(--card); border:1px solid #2a2e3d;
+    border-radius: var(--radius); padding: 18px 20px; margin-bottom: 14px; cursor:pointer; color:var(--text);
+    transition: all .15s ease;
+  }
+  .goal-card:hover { border-color: var(--accent); background: var(--card-hover); transform: translateX(4px); }
+  .goal-card .g-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .goal-card .g-desc { font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .goal-card .g-ready { font-size: 12.5px; margin-top: 8px; font-weight:600; }
+
+  /* ---------- Path ---------- */
+  .path-item {
+    background: var(--card); border:1px solid #2a2e3d; border-radius: var(--radius);
+    padding: 18px 20px; margin-bottom: 14px; position: relative;
+  }
+  .path-item.done { border-color: rgba(74,222,128,.4); }
+  .path-item .p-head { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+  .path-item .p-num {
+    width: 26px; height: 26px; border-radius:50%; background: var(--accent-soft); color:#b6acff;
+    display:flex; align-items:center; justify-content:center; font-size: 13px; font-weight:700; flex-shrink:0;
+  }
+  .path-item.done .p-num { background: rgba(74,222,128,.15); color: var(--green); }
+  .path-item .p-title { font-weight:700; font-size: 16px; }
+  .path-item .p-body { font-size: 14.5px; color: var(--muted); line-height: 1.6; margin-left: 36px; }
+  .badge { font-size: 11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; padding: 3px 9px; border-radius: 99px; margin-left:auto; flex-shrink:0; }
+  .badge.ai { background: var(--accent-soft); color: #b6acff; }
+  .badge.adj { background: rgba(251,191,36,.12); color: var(--amber); }
+  .badge.ok { background: rgba(74,222,128,.12); color: var(--green); }
+
+  .actions { display:flex; gap: 12px; margin-top: 28px; flex-wrap:wrap; }
+  .toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--card-hover); border: 1px solid var(--accent); color: var(--text);
+    padding: 12px 22px; border-radius: 99px; font-size: 14px; transition: transform .3s ease; z-index: 50;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  @media (max-width: 520px) { .skill-name { width: 130px; font-size: 13px; } .hero h1 { font-size: 28px; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- INTRO -->
+  <section class="screen active" id="screen-intro">
+    <div class="hero">
+      <span class="compass">🧭</span>
+      <h1>AI Compass</h1>
+      <p>Everyone's somewhere on the AI journey — most people just don't know where.
+         Answer 14 quick scenarios (no trick questions, no grades) and we'll map what you already get,
+         what's next, and the exact path to your goal.</p>
+      <div class="pill-row">
+        <span class="pill">⏱ ~5 minutes</span>
+        <span class="pill">🎯 Personal learning path</span>
+        <span class="pill">🙅 Not a test</span>
+      </div>
+      <button class="btn" onclick="startQuiz()">Find my bearings →</button>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="screen" id="screen-quiz">
+    <div class="topbar">
+      <div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+      <span class="step-label" id="step-label"></span>
+    </div>
+    <div id="q-container">
+      <span class="area-tag" id="q-area"></span>
+      <div class="q-text" id="q-text"></div>
+      <div id="q-options"></div>
+      <div class="feedback" id="q-feedback"></div>
+      <div class="next-row"><button class="btn" id="btn-next" style="display:none" onclick="nextQuestion()">Continue →</button></div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="screen" id="screen-results">
+    <h2>Here's where you are 📍</h2>
+    <p class="subtitle">Not a grade — a starting point. Every level below is learnable.</p>
+    <div class="archetype-card" id="archetype"></div>
+    <div class="section-label">Your AI concept map</div>
+    <div id="skill-bars-ai"></div>
+    <div class="section-label">Adjacent skills (the supporting cast)</div>
+    <div id="skill-bars-adj"></div>
+    <div class="actions">
+      <button class="btn" onclick="showScreen('screen-goals')">Choose my goal →</button>
+    </div>
+  </section>
+
+  <!-- GOALS -->
+  <section class="screen" id="screen-goals">
+    <h2>What are you aiming for? 🎯</h2>
+    <p class="subtitle">Each goal needs a different mix of concepts. Pick one and we'll show exactly what to learn — and what you can skip.</p>
+    <div id="goal-list"></div>
+    <div class="actions">
+      <button class="btn secondary" onclick="showScreen('screen-results')">← Back to my map</button>
+    </div>
+  </section>
+
+  <!-- PATH -->
+  <section class="screen" id="screen-path">
+    <h2 id="path-title"></h2>
+    <p class="subtitle" id="path-subtitle"></p>
+    <div id="path-list"></div>
+    <div class="actions">
+      <button class="btn" onclick="shareResult()">📋 Copy my result</button>
+      <button class="btn secondary" onclick="showScreen('screen-goals')">← Other goals</button>
+      <button class="btn secondary" onclick="location.reload()">↻ Start over</button>
+    </div>
+  </section>
+
+</div>
+<div class="toast" id="toast">Copied! Paste it anywhere ✨</div>
+
+<script>
+/* ======================= DATA ======================= */
+
+// AI concept areas, in dependency order. Level scale: 0–3.
+const AI_AREAS = [
+  { id:"found", name:"AI Foundations", tag:"How AI actually works" },
+  { id:"prompt", name:"Prompting", tag:"Getting what you ask for" },
+  { id:"advprompt", name:"Advanced Prompting", tag:"Steering the model" },
+  { id:"context", name:"Context & Knowledge", tag:"Memory, docs & RAG" },
+  { id:"agents", name:"Tools & Agents", tag:"AI that takes action" },
+];
+
+// Adjacent (non-AI) areas. Scored 0 or 1.
+const ADJ_AREAS = [
+  { id:"data", name:"Data & Formats", tag:"JSON & structured data" },
+  { id:"api", name:"APIs & Integration", tag:"How systems talk" },
+  { id:"auto", name:"Automation Logic", tag:"Triggers & flows" },
+  { id:"app", name:"App Building Blocks", tag:"Databases, hosting & co" },
+];
+
+// Question bank. AI areas: one question per difficulty 1–3. Adjacent: one question each.
+// Every option has friendly feedback; "correct" marks the strongest answer.
+const BANK = {
+  found: {
+    1: { q:"Your friend asks ChatGPT \"what's the tallest building in my city?\" and it answers instantly. What is the AI actually doing?",
+      opts:[
+        { t:"Searching the internet in real time for the answer", c:false },
+        { t:"Predicting the most likely words based on patterns it learned during training", c:true },
+        { t:"Looking the answer up in a built-in database of facts", c:false },
+        { t:"Following if-then rules written by programmers", c:false }],
+      why:"LLMs generate text by predicting likely next words from patterns in their training data. No live search, no fact database — which explains a lot of their behavior." },
+    2: { q:"An AI confidently tells you a book exists — complete with author and year. The book was never written. Why does this happen?",
+      opts:[
+        { t:"Someone fed it false information on purpose", c:false },
+        { t:"It generates plausible-sounding text without checking whether it's true — a \"hallucination\"", c:true },
+        { t:"Its database is out of date", c:false },
+        { t:"It misunderstood the question", c:false }],
+      why:"This is a hallucination: the model produces text that *sounds* right because it's statistically plausible — truth-checking isn't part of how it generates." },
+    3: { q:"You've been chatting with an AI assistant for weeks. Does it get smarter from your conversations?",
+      opts:[
+        { t:"Yes — every conversation retrains the model a little", c:false },
+        { t:"No — the model's knowledge was fixed during training; your chats don't change its weights", c:true },
+        { t:"Yes, but only if you give it a thumbs up", c:false },
+        { t:"Only paid versions learn from you", c:false }],
+      why:"Training and usage are separate. The model learned once (training); chatting is inference — it doesn't update the model. \"Memory\" features just store notes it re-reads." },
+  },
+  prompt: {
+    1: { q:"Two people ask an AI to help with a birthday message. Who gets the better result?",
+      opts:[
+        { t:"\"Write a birthday message\"", c:false },
+        { t:"\"Write a short, warm birthday message for my colleague Maria who loves hiking and just got a puppy\"", c:true },
+        { t:"\"BIRTHDAY MESSAGE PLEASE\" — caps make it prioritize you", c:false },
+        { t:"Both the same — the AI knows what you mean", c:false }],
+      why:"Specificity and context are the #1 lever. The AI can't read your mind — the more relevant details you give, the better it lands." },
+    2: { q:"A colleague complains: \"AI always gives me generic, useless answers.\" What single change would help them most?",
+      opts:[
+        { t:"Use a different AI model", c:false },
+        { t:"Give it context and an example of what a great answer looks like", c:true },
+        { t:"Ask the same question multiple times", c:false },
+        { t:"Keep prompts as short as possible so it doesn't get confused", c:false }],
+      why:"Showing an example of the output you want (\"few-shot prompting\") plus real context is the fastest cure for generic answers." },
+    3: { q:"You need the AI to return results in the exact same structure every time — for a weekly report. Most reliable approach?",
+      opts:[
+        { t:"Ask nicely and hope for consistency", c:false },
+        { t:"Define the exact format in the prompt and include a filled-in example of the structure", c:true },
+        { t:"Regenerate until it happens to match", c:false },
+        { t:"Type in all caps that format matters", c:false }],
+      why:"Explicit format spec + a worked example is the pro move. Models follow demonstrated structure far more reliably than described structure." },
+  },
+  advprompt: {
+    1: { q:"You tell an AI \"You are an experienced UX writer reviewing app copy\" before your question. What does this do?",
+      opts:[
+        { t:"Nothing — it ignores role-play", c:false },
+        { t:"Sets a role and lens that shapes tone, expertise and focus of every answer after it", c:true },
+        { t:"Unlocks a hidden UX-writer mode with extra abilities", c:false },
+        { t:"Makes it answer slower but more accurately", c:false }],
+      why:"Role and system prompts steer the model's behavior across the whole conversation — one of the simplest, highest-leverage techniques." },
+    2: { q:"For a tricky logic problem, adding \"think through this step by step before answering\" often improves the result. Why?",
+      opts:[
+        { t:"It flatters the model into trying harder", c:false },
+        { t:"Generating intermediate reasoning steps gives the model a scratchpad — later words can build on earlier ones", c:true },
+        { t:"It activates a special math processor", c:false },
+        { t:"It doesn't actually help — that's a myth", c:false }],
+      why:"Chain-of-thought works because the model generates text sequentially: writing out the steps means each conclusion can build on visible reasoning." },
+    3: { q:"You ask an AI to research a topic, summarize it, translate the summary, and format it as a newsletter — all in one prompt. Results are messy. Best fix?",
+      opts:[
+        { t:"Write the prompt in a more demanding tone", c:false },
+        { t:"Break it into a chain: one prompt per step, feeding each output into the next", c:true },
+        { t:"Switch to a bigger model and keep the mega-prompt", c:false },
+        { t:"Add \"do all steps carefully\" at the end", c:false }],
+      why:"Prompt chaining (decomposition) trades one overloaded instruction for a pipeline of focused ones — the foundation of workflows, automations and agents." },
+  },
+  context: {
+    1: { q:"After a very long chat, the AI starts \"forgetting\" things you said at the beginning. What's going on?",
+      opts:[
+        { t:"The AI got bored of the conversation", c:false },
+        { t:"The conversation exceeded its context window — the limited amount of text it can consider at once", c:true },
+        { t:"A bug — AI should remember everything forever", c:false },
+        { t:"It deprioritizes older users' messages", c:false }],
+      why:"The context window is the model's working memory. Everything it \"knows\" about your conversation has to fit inside it — overflow gets dropped." },
+    2: { q:"You want an AI assistant to answer questions using your company's internal handbook. What's the standard approach?",
+      opts:[
+        { t:"Retrain the entire model on the handbook", c:false },
+        { t:"Retrieve the relevant handbook sections and put them into the prompt as context (RAG)", c:true },
+        { t:"Email the handbook to the AI company", c:false },
+        { t:"It's impossible — AI can only use training data", c:false }],
+      why:"Retrieval-Augmented Generation: search your docs for relevant chunks, paste them into the context, let the model answer from them. No retraining needed." },
+    3: { q:"RAG systems use \"embeddings\" to find the right documents. What's an embedding?",
+      opts:[
+        { t:"A compressed zip file of the document", c:false },
+        { t:"A list of numbers representing a text's meaning, so similar meanings end up numerically close", c:true },
+        { t:"A hyperlink inserted into the AI's answer", c:false },
+        { t:"A watermark proving the text is AI-generated", c:false }],
+      why:"Embeddings turn text into vectors that capture meaning — \"vacation policy\" and \"time off rules\" land close together, which is how semantic search finds the right chunk." },
+  },
+  agents: {
+    1: { q:"What's the key difference between a chatbot and an AI \"agent\"?",
+      opts:[
+        { t:"Agents are just chatbots with a cooler name", c:false },
+        { t:"An agent can take actions — use tools, run steps in a loop, and work toward a goal, not just reply", c:true },
+        { t:"Agents are physical robots", c:false },
+        { t:"Agents don't need prompts", c:false }],
+      why:"A chatbot answers; an agent acts. It plans, calls tools (search, email, code…), checks results, and loops until the goal is done." },
+    2: { q:"An agent \"checks your calendar\" for you. How does tool use actually work under the hood?",
+      opts:[
+        { t:"The AI hacks into your calendar directly", c:false },
+        { t:"The model outputs a structured request (\"call get_events for Tuesday\"), and surrounding code executes it and feeds the result back", c:true },
+        { t:"The AI company's staff check it manually", c:false },
+        { t:"The model was trained on your calendar", c:false }],
+      why:"Function calling: the model writes a structured request, real code executes it, and the result goes back into the context. The model never touches systems directly — your code does." },
+    3: { q:"Your agent can send emails and delete files. Once in a while it misreads a situation. What's the most important safeguard?",
+      opts:[
+        { t:"A sternly worded prompt telling it to be careful", c:false },
+        { t:"Guardrails: least-privilege access, plus human approval required before irreversible actions", c:true },
+        { t:"Only running it at night when mistakes matter less", c:false },
+        { t:"Trusting it — modern models rarely err", c:false }],
+      why:"Prompts are suggestions; permissions are guarantees. Scope access to the minimum and gate destructive actions behind human review — that's how production agents stay safe." },
+  },
+  data: {
+    2: { q:"You keep seeing JSON mentioned in AI tools — like {\"name\": \"Maria\", \"team\": \"Design\"}. What is JSON for?",
+      opts:[
+        { t:"A programming language for building websites", c:false },
+        { t:"A structured text format programs use to exchange data — and the lingua franca between AI and other software", c:true },
+        { t:"A database made by Jason", c:false },
+        { t:"An encryption method for secure messages", c:false }],
+      why:"JSON is just structured, labeled data as text. When AI needs to talk to other software (or vice versa), JSON is usually the handshake." },
+  },
+  api: {
+    2: { q:"An automation guide says \"connect via the API.\" In plain terms, what's an API?",
+      opts:[
+        { t:"A special AI-powered app", c:false },
+        { t:"A defined way for one program to request things from another — like a menu of what a service lets you do", c:true },
+        { t:"A physical cable between two computers", c:false },
+        { t:"An account tier you have to pay for", c:false }],
+      why:"An API is a service's front desk for other programs: documented requests in, predictable responses out. Nearly every integration — and every AI tool call — goes through one." },
+  },
+  auto: {
+    2: { q:"\"When a form is submitted → if budget > 5000 → notify finance on Slack.\" Which three building blocks make up this automation?",
+      opts:[
+        { t:"Input, output, feedback", c:false },
+        { t:"Trigger, condition, action", c:true },
+        { t:"Start, middle, end", c:false },
+        { t:"Bug, fix, deploy", c:false }],
+      why:"Trigger (when X happens), condition (only if Y), action (do Z) — the grammar of every automation in Zapier, n8n, Make, or code." },
+  },
+  app: {
+    2: { q:"You built a little app where users save their favorite recipes. Everything vanishes when the app restarts. What's missing?",
+      opts:[
+        { t:"More RAM", c:false },
+        { t:"A database — persistent storage that survives restarts, instead of keeping data only in memory", c:true },
+        { t:"A faster internet connection", c:false },
+        { t:"A better AI model", c:false }],
+      why:"Apps hold working data in memory, which vanishes on restart. A database is where data lives permanently — one of the first \"non-AI\" concepts every app builder meets." },
+  },
+};
+
+// Goals: required level per AI area (0–3) and required adjacent areas (0/1).
+const GOALS = [
+  { id:"pe", emoji:"✍️", title:"Master Prompt Engineering",
+    desc:"Get consistently great results from AI tools — for writing, analysis, ideas, everyday work.",
+    req:{ found:2, prompt:3, advprompt:2, context:1, agents:0 },
+    adj:{ data:0, api:0, auto:0, app:0 } },
+  { id:"autom", emoji:"⚙️", title:"Build Automations",
+    desc:"Connect AI into workflows that run by themselves — reports, alerts, data flows (Zapier, n8n, Make…).",
+    req:{ found:2, prompt:2, advprompt:2, context:1, agents:2 },
+    adj:{ data:1, api:1, auto:1, app:0 } },
+  { id:"agent", emoji:"🤖", title:"Build an Agent",
+    desc:"Create an AI that plans, uses tools, and completes goals on its own — safely.",
+    req:{ found:2, prompt:2, advprompt:3, context:2, agents:3 },
+    adj:{ data:1, api:1, auto:0, app:0 } },
+  { id:"appb", emoji:"🚀", title:"Build an App",
+    desc:"Ship a real AI-powered product people can use — frontend, backend, data and all.",
+    req:{ found:2, prompt:3, advprompt:2, context:2, agents:2 },
+    adj:{ data:1, api:1, auto:1, app:1 } },
+];
+
+// What to learn per AI area, per level you still need (1–3). Kept tool-agnostic.
+const LEARN = {
+  found: {
+    1:"How LLMs work in one sitting: next-word prediction, training vs. usage, why they sound confident.",
+    2:"Hallucinations and their limits: when to trust output, when to verify, what AI is (and isn't) good at.",
+    3:"Training vs. inference, model updates, and why \"the AI learns from me\" is mostly a myth." },
+  prompt: {
+    1:"The basics: be specific, give context, state the audience and the goal.",
+    2:"Few-shot prompting: show examples of great output; iterate instead of accepting draft #1.",
+    3:"Reliable structure: exact format specs, worked examples, and testing prompts like tiny products." },
+  advprompt: {
+    1:"System prompts and roles: set the lens once, shape every answer after.",
+    2:"Chain-of-thought: ask for reasoning steps on anything tricky.",
+    3:"Prompt chaining & decomposition: split big jobs into pipelines — the gateway to automations and agents." },
+  context: {
+    1:"Context windows: what the model can \"see,\" why long chats degrade, what memory features really do.",
+    2:"RAG in plain terms: retrieve relevant docs, inject them as context, answer grounded in *your* data.",
+    3:"Embeddings & semantic search: how meaning becomes numbers and how the right chunk gets found." },
+  agents: {
+    1:"What agents are: the loop of plan → act → observe, and how they differ from chatbots.",
+    2:"Tool use / function calling: how a model's structured request becomes a real action in the world.",
+    3:"Agent safety: least-privilege access, human-in-the-loop approval, guardrails that are guarantees, not suggestions." },
+};
+
+const LEARN_ADJ = {
+  data:"JSON and structured data: read it, write it, recognize it — the handshake between AI and everything else.",
+  api:"APIs 101: what they are, API keys, making a simple request. Try one public API end-to-end.",
+  auto:"Automation thinking: triggers, conditions, actions. Build one small workflow in any automation tool.",
+  app:"App anatomy: frontend vs. backend, what a database does, where code runs (hosting), and why version control saves lives.",
+};
+
+const ARCHETYPES = [
+  { min:0,  emoji:"🌱", name:"Curious Explorer", desc:"You're at the trailhead — and that's the perfect place to start. Everything ahead of you is learnable, and the first few concepts pay off immediately." },
+  { min:5,  emoji:"🧗", name:"Practitioner", desc:"You already use AI and get real value from it. Sharpening a few core concepts will make your results dramatically more consistent." },
+  { min:9,  emoji:"⚡", name:"Power User", desc:"You understand how these systems think. You're ready to move from *using* AI to *building with* it." },
+  { min:13, emoji:"🛠️", name:"AI Builder", desc:"You've got the full conceptual toolkit. Your gaps — if any — are in the adjacent skills that turn knowledge into shipped things." },
+];
+
+/* ======================= LOGIC ======================= */
+
+const state = {
+  plan: [],          // ordered list of question slots
+  idx: 0,
+  aiLevels: {},      // area id -> 0–3
+  adjLevels: {},     // area id -> 0/1
+  pending: {},       // area id -> { q1Correct }
+  answered: false,
+};
+
+function buildPlan() {
+  const plan = [];
+  // Two adaptive questions per AI area (second difficulty decided at runtime).
+  AI_AREAS.forEach(a => plan.push({ area:a.id, kind:"ai", step:1 }, { area:a.id, kind:"ai", step:2 }));
+  // One spot-check per adjacent area.
+  ADJ_AREAS.forEach(a => plan.push({ area:a.id, kind:"adj", step:1 }));
+  return plan;
+}
+
+function currentQuestion() {
+  const slot = state.plan[state.idx];
+  if (slot.kind === "adj") return BANK[slot.area][2];
+  if (slot.step === 1) return BANK[slot.area][2]; // start at medium
+  // step 2: adapt — harder if step 1 correct, easier if not
+  return BANK[slot.area][state.pending[slot.area].q1Correct ? 3 : 1];
+}
+
+function areaName(id) {
+  return (AI_AREAS.find(a => a.id===id) || ADJ_AREAS.find(a => a.id===id)).name;
+}
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  const el = document.getElementById(id);
+  el.classList.remove("active"); void el.offsetWidth; // restart animation
+  el.classList.add("active");
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+function startQuiz() {
+  state.plan = buildPlan();
+  state.idx = 0;
+  showScreen("screen-quiz");
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const slot = state.plan[state.idx];
+  const q = currentQuestion();
+  state.answered = false;
+
+  document.getElementById("progress").style.width = (state.idx / state.plan.length * 100) + "%";
+  document.getElementById("step-label").textContent = (state.idx+1) + " / " + state.plan.length;
+  document.getElementById("q-area").textContent = areaName(slot.area);
+  document.getElementById("q-text").textContent = q.q;
+
+  const box = document.getElementById("q-options");
+  box.innerHTML = "";
+  // Shuffle options for freshness
+  const order = q.opts.map((o,i)=>i).sort(()=>Math.random()-0.5);
+  order.forEach(i => {
+    const btn = document.createElement("button");
+    btn.className = "opt";
+    btn.textContent = q.opts[i].t;
+    btn.onclick = () => answer(i, btn);
+    box.appendChild(btn);
+  });
+
+  const fb = document.getElementById("q-feedback");
+  fb.className = "feedback";
+  document.getElementById("btn-next").style.display = "none";
+}
+
+function answer(optIdx, btnEl) {
+  if (state.answered) return;
+  state.answered = true;
+
+  const slot = state.plan[state.idx];
+  const q = currentQuestion();
+  const correct = q.opts[optIdx].c;
+
+  document.querySelectorAll(".opt").forEach(b => { if (b !== btnEl) b.classList.add("dim"); });
+  btnEl.classList.add("picked");
+
+  const fb = document.getElementById("q-feedback");
+  fb.className = "feedback show " + (correct ? "good" : "info");
+  fb.innerHTML = (correct ? "<b>✨ Exactly.</b>" : "<b>💡 Good to know:</b>") + q.why;
+
+  // Record result
+  if (slot.kind === "adj") {
+    state.adjLevels[slot.area] = correct ? 1 : 0;
+  } else if (slot.step === 1) {
+    state.pending[slot.area] = { q1Correct: correct };
+  } else {
+    const q1 = state.pending[slot.area].q1Correct;
+    // Level: q1✓ q2(hard)✓ → 3 | q1✓ q2✗ → 2 | q1✗ q2(easy)✓ → 1 | both ✗ → 0
+    state.aiLevels[slot.area] = q1 ? (correct ? 3 : 2) : (correct ? 1 : 0);
+  }
+
+  document.getElementById("btn-next").style.display = "inline-block";
+}
+
+function nextQuestion() {
+  state.idx++;
+  if (state.idx < state.plan.length) { renderQuestion(); }
+  else { showResults(); }
+}
+
+/* ---------- Results ---------- */
+function showResults() {
+  document.getElementById("progress").style.width = "100%";
+  const total = AI_AREAS.reduce((s,a)=> s + (state.aiLevels[a.id]||0), 0); // 0–15
+
+  const arch = [...ARCHETYPES].reverse().find(a => total >= a.min);
+  document.getElementById("archetype").innerHTML =
+    `<span class="emoji">${arch.emoji}</span><h3>${arch.name}</h3><p>${arch.desc}</p>
+     <p style="margin-top:10px;font-size:13px;color:var(--muted)">AI concept score: <b style="color:var(--text)">${total} / 15</b></p>`;
+
+  const LVL_NAMES = ["New","Aware","Solid","Strong"];
+  const aiBox = document.getElementById("skill-bars-ai");
+  aiBox.innerHTML = "";
+  AI_AREAS.forEach(a => {
+    const lvl = state.aiLevels[a.id]||0;
+    aiBox.insertAdjacentHTML("beforeend",
+      `<div class="skill-row">
+        <div class="skill-name">${a.name}<br><span style="font-size:12px;color:var(--muted)">${a.tag}</span></div>
+        <div class="skill-track"><div class="skill-fill" data-w="${lvl/3*100}"></div></div>
+        <div class="skill-lvl">${LVL_NAMES[lvl]}</div>
+      </div>`);
+  });
+
+  const adjBox = document.getElementById("skill-bars-adj");
+  adjBox.innerHTML = "";
+  ADJ_AREAS.forEach(a => {
+    const lvl = state.adjLevels[a.id]||0;
+    adjBox.insertAdjacentHTML("beforeend",
+      `<div class="skill-row">
+        <div class="skill-name">${a.name}<br><span style="font-size:12px;color:var(--muted)">${a.tag}</span></div>
+        <div class="skill-track"><div class="skill-fill" data-w="${lvl*100}" style="background:linear-gradient(90deg,var(--amber),#fde68a)"></div></div>
+        <div class="skill-lvl">${lvl ? "Got it" : "To learn"}</div>
+      </div>`);
+  });
+
+  renderGoals();
+  showScreen("screen-results");
+  requestAnimationFrame(()=> setTimeout(()=> {
+    document.querySelectorAll(".skill-fill").forEach(f => f.style.width = f.dataset.w + "%");
+  }, 80));
+}
+
+/* ---------- Goals & path ---------- */
+function goalGaps(goal) {
+  const ai = AI_AREAS
+    .map(a => ({ area:a, need:goal.req[a.id], have:state.aiLevels[a.id]||0 }))
+    .filter(x => x.need > x.have);
+  const adj = ADJ_AREAS
+    .map(a => ({ area:a, need:goal.adj[a.id], have:state.adjLevels[a.id]||0 }))
+    .filter(x => x.need > x.have);
+  return { ai, adj, total: ai.length + adj.length };
+}
+
+function renderGoals() {
+  const box = document.getElementById("goal-list");
+  box.innerHTML = "";
+  GOALS.forEach(g => {
+    const gaps = goalGaps(g);
+    const ready = gaps.total === 0
+      ? `<span style="color:var(--green)">✓ You're ready for this one — go do it!</span>`
+      : `<span style="color:var(--muted)">${gaps.total} concept${gaps.total>1?"s":""} between you and this goal</span>`;
+    const card = document.createElement("button");
+    card.className = "goal-card";
+    card.innerHTML = `<div class="g-title">${g.emoji} ${g.title}</div>
+                      <div class="g-desc">${g.desc}</div>
+                      <div class="g-ready">${ready}</div>`;
+    card.onclick = () => showPath(g);
+    box.appendChild(card);
+  });
+}
+
+let currentGoal = null;
+function showPath(goal) {
+  currentGoal = goal;
+  const gaps = goalGaps(goal);
+  document.getElementById("path-title").textContent = `${goal.emoji} Your path: ${goal.title}`;
+
+  const list = document.getElementById("path-list");
+  list.innerHTML = "";
+
+  if (gaps.total === 0) {
+    document.getElementById("path-subtitle").textContent =
+      "You already have every concept this goal needs. The only step left is the fun one:";
+    list.innerHTML = `<div class="path-item done">
+        <div class="p-head"><div class="p-num">🎉</div><div class="p-title">Start building</div><span class="badge ok">Ready</span></div>
+        <div class="p-body">Pick a small real project and do it this week. Nothing teaches like shipping.</div>
+      </div>`;
+    return;
+  }
+
+  document.getElementById("path-subtitle").textContent =
+    `${gaps.ai.length} AI concept${gaps.ai.length===1?"":"s"} + ${gaps.adj.length} adjacent skill${gaps.adj.length===1?"":"s"} to pick up — in this order, each one unlocks the next.`;
+
+  let n = 1;
+  // AI concepts first (dependency order is already AI_AREAS order), each missing level = one step
+  gaps.ai.forEach(x => {
+    for (let lvl = x.have+1; lvl <= x.need; lvl++) {
+      list.insertAdjacentHTML("beforeend",
+        `<div class="path-item">
+          <div class="p-head"><div class="p-num">${n++}</div><div class="p-title">${x.area.name} — level ${lvl}</div><span class="badge ai">AI core</span></div>
+          <div class="p-body">${LEARN[x.area.id][lvl]}</div>
+        </div>`);
+    }
+  });
+  // Then adjacent skills
+  gaps.adj.forEach(x => {
+    list.insertAdjacentHTML("beforeend",
+      `<div class="path-item">
+        <div class="p-head"><div class="p-num">${n++}</div><div class="p-title">${x.area.name}</div><span class="badge adj">Adjacent</span></div>
+        <div class="p-body">${LEARN_ADJ[x.area.id]}</div>
+      </div>`);
+  });
+  // Capstone
+  list.insertAdjacentHTML("beforeend",
+    `<div class="path-item">
+      <div class="p-head"><div class="p-num">${n}</div><div class="p-title">Build something real</div><span class="badge ok">Capstone</span></div>
+      <div class="p-body">Cement it with a tiny real project toward "${goal.title}". Small, real, and finished beats big and abandoned.</div>
+    </div>`);
+
+  showScreen("screen-path");
+}
+
+/* ---------- Share ---------- */
+function shareResult() {
+  const total = AI_AREAS.reduce((s,a)=> s + (state.aiLevels[a.id]||0), 0);
+  const arch = [...ARCHETYPES].reverse().find(a => total >= a.min);
+  const LVL_NAMES = ["New","Aware","Solid","Strong"];
+  let txt = `🧭 My AI Compass result: ${arch.emoji} ${arch.name} (${total}/15)\n\n`;
+  AI_AREAS.forEach(a => { txt += `${a.name}: ${LVL_NAMES[state.aiLevels[a.id]||0]}\n`; });
+  txt += `Adjacent skills: ${ADJ_AREAS.filter(a=>state.adjLevels[a.id]).map(a=>a.name).join(", ") || "all still ahead of me"}\n`;
+  if (currentGoal) {
+    const gaps = goalGaps(currentGoal);
+    txt += `\n🎯 Goal: ${currentGoal.title} — ${gaps.total === 0 ? "ready to go!" : gaps.total + " concept(s) to learn"}\n`;
+  }
+  txt += `\nFind your own bearings → AI Compass`;
+  navigator.clipboard.writeText(txt).then(()=> {
+    const t = document.getElementById("toast");
+    t.classList.add("show");
+    setTimeout(()=> t.classList.remove("show"), 2200);
+  });
+}
+</script>
+</body>
+</html>
