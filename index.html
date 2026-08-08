@@ -313,6 +313,14 @@
       filter: drop-shadow(9px 9px 0 rgba(0, 0, 0, .38));
     }
 
+    .portrait-wrap .portrait-photo { display: none; }
+
+    .portrait-wrap .portrait-pixel {
+      width: min(118%, 690px);
+      max-width: none;
+      justify-self: center;
+    }
+
     .about-copy {
       opacity: 0;
       transform: translateX(70px);
@@ -743,18 +751,20 @@
     html[data-theme="minimal"] .portrait-wrap::before {
       left: 22px;
       right: 22px;
-      bottom: 22px;
+      top: 50%;
+      bottom: auto;
       height: 64%;
       border: 0;
       border-radius: 28px;
       background: linear-gradient(145deg, #eef2f6, #e1e6ec);
       box-shadow: inset -9px -9px 18px rgba(255, 255, 255, .7), inset 9px 9px 18px rgba(174, 184, 197, .35);
+      transform: translateY(-50%);
     }
 
     html[data-theme="minimal"] .portrait-wrap::after {
       content: "DAVID / BUILDER";
       left: 44px;
-      bottom: 42px;
+      bottom: calc(18% + 20px);
       z-index: 2;
       padding: 9px 13px;
       border-radius: 9px;
@@ -771,12 +781,14 @@
       position: absolute;
       left: 32px;
       right: 32px;
-      bottom: 32px;
+      top: 50%;
+      bottom: auto;
       width: auto;
       height: calc(64% - 20px);
       overflow: hidden;
       border-radius: 22px;
       align-items: stretch;
+      transform: translateY(-50%);
     }
 
     html[data-theme="minimal"] .portrait-media::after {
