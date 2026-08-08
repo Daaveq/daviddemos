@@ -6,7 +6,7 @@ This file is the durable working memory for the David Demos landing-page project
 
 - Project name: David Demos.
 - Purpose: a polished landing page and portfolio hub for all demos built in this workspace.
-- Current state: the root landing page offers a persistent two-mode presentation: the existing responsive 8-bit scroll story and a new light minimalist/neumorphic treatment with shared content and interactions; both are ready for visual review.
+- Current state: the root landing page offers a persistent two-mode presentation: a light minimalist/neumorphic default and the existing responsive 8-bit scroll story with shared content and interactions; both are ready for visual review.
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
 - GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`; the remote is currently empty, so publishing a non-`main` task branch requires an explicitly approved one-time repository bootstrap or authenticated Git credentials.
@@ -17,8 +17,8 @@ This file is the durable working memory for the David Demos landing-page project
 - The landing page should present all demos in one coherent portfolio experience.
 - Each demo should retain a clear identity, purpose, and direct path to exploration.
 - Demo claims and availability must be grounded in the corresponding source project.
-- `index.html` defaults to the 8-bit presentation and provides a fixed 8-bit/Minimal switch that persists the visitor’s choice in local storage. Minimal mode reinterprets the same scroll story with Manrope typography, cool-gray neumorphic surfaces, rounded controls, soft circular particles, and restrained blue, coral, and green accents. The page opens with one large “AI” above “can feel overwhelming sometimes” inside a particle field. The about section now overlaps 66vh into the intro on desktop and 48vh on narrower screens so “Hi, my name is David” arrives well before the intro finishes; “Scroll to simplify” remains visible above that arrival and fades during the handoff. A fixed grid drifts at 12% of foreground scroll speed, followed by Demos, Articles, and Tools placeholder cards.
-- `assets/david-pixel-friendly.png` is the transparent 320×320 low-resolution sprite portrait used in the about section, with brighter natural eyes and a warmer expression. `assets/david-pixel-friendly-source.png` retains its generated chroma-key source; earlier portrait treatments remain available for comparison.
+- `index.html` defaults to the minimalist presentation and provides a fixed Minimal/8-bit switch that persists the visitor’s choice in local storage. Minimal mode reinterprets the same scroll story with Manrope typography, cool-gray neumorphic surfaces, rounded controls, soft circular particles, and restrained blue, coral, and green accents. The page opens with one large “AI” above “can feel overwhelming sometimes” inside a particle field. The about section now overlaps 66vh into the intro on desktop and 48vh on narrower screens so “Hi, my name is David” arrives well before the intro finishes; “Scroll to simplify” remains visible above that arrival and fades during the handoff. A fixed grid drifts at 12% of foreground scroll speed, followed by Demos, Articles, and Tools placeholder cards.
+- Minimal mode uses the supplied 5472×3648 `assets/David-bg.png` photo clipped inside the recessed portrait panel. The 8-bit mode uses `assets/david-pixel-friendly.png`, the transparent 320×320 low-resolution sprite portrait with brighter natural eyes and a warmer expression. `assets/david-pixel-friendly-source.png` retains its generated chroma-key source; earlier portrait treatments remain available for comparison.
 - The page uses a custom CSS pixel cursor on precise pointers, normal touch behavior on coarse pointers, canvas particles, scroll-driven transforms, and reduced-motion support.
 - `ai-compass.html` remains available at `/ai-compass.html` but is intentionally unlinked and out of scope for now.
 - `Previous Computer/` is the untouched recovery source archive and should remain available until the promoted site has been fully reviewed.
@@ -45,7 +45,7 @@ This file is the durable working memory for the David Demos landing-page project
 - Build this repository as the landing page for all demos.
 - Adapt the process conventions without carrying over insurance-specific product, safety, runtime, or architecture rules.
 - Use `https://github.com/Daaveq/daviddemos` as the canonical GitHub repository.
-- Keep the 8-bit visual system as the default landing-page mode and offer alternative presentations through one shared semantic page; the first alternative is a light minimalist/neumorphic mode selected through a persistent fixed switch.
+- Keep multiple visual presentations on one shared semantic page. The light minimalist/neumorphic presentation is the default, and the persistent fixed switch places the alternative 8-bit mode on the right.
 - Keep the main narrative practical and anti-buzzword: show what David built, what worked, and explain it simply.
 - Keep AI Compass unlinked and out of the primary experience for now.
 

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="minimal">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,9 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <script>
     try {
-      if (localStorage.getItem("david-site-mode") === "minimal") {
-        document.documentElement.dataset.theme = "minimal";
-      }
+      if (localStorage.getItem("david-site-mode") === "8bit") delete document.documentElement.dataset.theme;
     } catch (error) {
       // The default 8-bit mode remains available when storage is blocked.
     }
@@ -292,6 +290,17 @@
       font-size: 9px;
     }
 
+    .portrait-media {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 100%;
+      align-items: end;
+    }
+
+    .portrait-media img { grid-area: 1 / 1; }
+    .portrait-photo { display: none; }
+
     .portrait-wrap img {
       position: relative;
       z-index: 1;
@@ -562,14 +571,14 @@
     .mode-switch::before {
       content: "";
       position: absolute;
-      inset: 5px auto 5px 5px;
+      inset: 5px 5px 5px auto;
       z-index: 0;
       width: calc(50% - 5px);
       background: var(--cyan);
     }
 
     .mode-option { position: relative; z-index: 1; display: grid; place-items: center; color: var(--muted); }
-    .mode-option:first-child { color: var(--ink); }
+    .mode-option:last-child { color: var(--ink); }
 
     html[data-theme="minimal"] {
       --night: #e9edf2;
@@ -634,7 +643,7 @@
     }
 
     html[data-theme="minimal"] .mode-switch::before {
-      inset: 6px 6px 6px auto;
+      inset: 6px auto 6px 6px;
       width: calc(50% - 6px);
       border-radius: 13px;
       background: #e9edf2;
@@ -642,8 +651,8 @@
     }
 
     html[data-theme="minimal"] .mode-option,
-    html[data-theme="minimal"] .mode-option:first-child { color: #7b8692; }
-    html[data-theme="minimal"] .mode-option:last-child { color: #17202a; }
+    html[data-theme="minimal"] .mode-option:last-child { color: #7b8692; }
+    html[data-theme="minimal"] .mode-option:first-child { color: #17202a; }
 
     html[data-theme="minimal"] a:focus-visible,
     html[data-theme="minimal"] button:focus-visible { outline: 3px solid #489cc1; outline-offset: 5px; }
@@ -758,7 +767,39 @@
       letter-spacing: .12em;
     }
 
-    html[data-theme="minimal"] .portrait-wrap img { filter: drop-shadow(0 18px 18px rgba(86, 99, 113, .18)); image-rendering: auto; }
+    html[data-theme="minimal"] .portrait-media {
+      position: absolute;
+      left: 32px;
+      right: 32px;
+      bottom: 32px;
+      width: auto;
+      height: calc(64% - 20px);
+      overflow: hidden;
+      border-radius: 22px;
+      align-items: stretch;
+    }
+
+    html[data-theme="minimal"] .portrait-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      border-radius: inherit;
+      box-shadow: inset 8px 8px 16px rgba(111, 124, 139, .26), inset -8px -8px 16px rgba(255, 255, 255, .28);
+    }
+
+    html[data-theme="minimal"] .portrait-pixel { display: none; }
+    html[data-theme="minimal"] .portrait-wrap .portrait-photo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      object-fit: cover;
+      object-position: center 38%;
+      filter: none;
+      image-rendering: auto;
+    }
     html[data-theme="minimal"] .about-copy { transform: translateY(25px); transition: opacity 600ms ease 100ms, transform 700ms cubic-bezier(.2, .8, .2, 1) 100ms; }
     html[data-theme="minimal"] .kicker { gap: 12px; }
 
@@ -897,9 +938,9 @@
 </head>
 <body>
   <a class="skip-link" href="#about">Skip intro</a>
-  <button class="mode-switch" type="button" aria-label="Switch to minimalist mode" aria-pressed="false">
-    <span class="mode-option">8-bit</span>
+  <button class="mode-switch" type="button" aria-label="Switch to 8-bit mode" aria-pressed="true">
     <span class="mode-option">Minimal</span>
+    <span class="mode-option">8-bit</span>
   </button>
   <div class="pixel-cursor" aria-hidden="true"></div>
   <div class="world-grid" aria-hidden="true"></div>
@@ -921,7 +962,10 @@
   <main>
     <section class="section about" id="about" aria-labelledby="about-title">
       <div class="portrait-wrap">
-        <img src="assets/david-pixel-friendly.png" alt="Friendly pixel-art portrait of David smiling and lifting his cap" width="320" height="320">
+        <div class="portrait-media">
+          <img class="portrait-pixel" src="assets/david-pixel-friendly.png" alt="Friendly pixel-art portrait of David smiling and lifting his cap" width="320" height="320">
+          <img class="portrait-photo" src="assets/David-bg.png" alt="Portrait of David" width="5472" height="3648">
+        </div>
       </div>
 
       <div class="about-copy">
@@ -1024,7 +1068,7 @@
       const random = (min, max) => min + Math.random() * (max - min);
 
       function createParticles() {
-        const count = width < 600 ? 120 : 240;
+        const count = width < 600 ? 240 : 480;
         const radius = Math.min(width, height) * .24;
         particles = Array.from({ length: count }, (_, index) => {
           const angle = (index / count) * Math.PI * 2 + random(-.12, .12);
