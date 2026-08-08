@@ -215,7 +215,7 @@
       font-size: 9px;
       letter-spacing: .05em;
       transform: translateX(-50%);
-      animation: cue-blink 1.2s steps(2, end) infinite;
+      animation: none;
     }
 
     .scroll-cue::after {
@@ -291,10 +291,15 @@
     }
 
     .portrait-media {
-      position: relative;
+      position: absolute;
+      left: calc(8% + 10px);
+      right: calc(2% + 10px);
+      bottom: 10px;
       z-index: 1;
       display: grid;
-      width: 100%;
+      width: auto;
+      height: calc(72% - 20px);
+      overflow: hidden;
       align-items: end;
     }
 
@@ -319,7 +324,7 @@
       width: min(148%, 800px);
       max-width: none;
       justify-self: center;
-      transform: scale(1.42);
+      transform: translateY(5%) scale(1.18);
       transform-origin: center bottom;
     }
 
@@ -816,6 +821,7 @@
     }
     html[data-theme="minimal"] .about-copy { transform: translateY(25px); transition: opacity 600ms ease 100ms, transform 700ms cubic-bezier(.2, .8, .2, 1) 100ms; }
     html[data-theme="minimal"] .kicker { gap: 12px; }
+    html[data-theme="minimal"] .about .kicker { display: none; }
 
     html[data-theme="minimal"] .kicker::before {
       width: 7px;
