@@ -198,7 +198,7 @@
 
     .scroll-cue {
       position: absolute;
-      bottom: 34px;
+      bottom: clamp(96px, 16vh, 170px);
       left: 50%;
       display: grid;
       gap: 10px;
@@ -225,7 +225,7 @@
     main {
       position: relative;
       z-index: 2;
-      margin-top: -48vh;
+      margin-top: -66vh;
     }
 
     .section {
@@ -291,7 +291,7 @@
       max-height: 710px;
       object-fit: contain;
       object-position: center bottom;
-      image-rendering: auto;
+      image-rendering: pixelated;
       filter: drop-shadow(9px 9px 0 rgba(0, 0, 0, .38));
     }
 
@@ -482,7 +482,7 @@
 
     @media (max-width: 860px) {
       .intro { height: 165vh; }
-      main { margin-top: -34vh; }
+      main { margin-top: -48vh; }
       .about {
         grid-template-columns: 1fr;
         padding-top: 80px;
@@ -512,7 +512,7 @@
       .about h2, .resources h2 { font-size: clamp(24px, 8.5vw, 34px); }
       .bio, .resources-intro { font-size: 23px; }
       .resource-card { padding: 26px 22px; }
-      .scroll-cue { bottom: 24px; }
+      .scroll-cue { bottom: 110px; }
     }
 
     @media (pointer: coarse), (hover: none) {
@@ -552,7 +552,7 @@
   <main>
     <section class="section about" id="about" aria-labelledby="about-title">
       <div class="portrait-wrap">
-        <img src="assets/david-pixel-refined.png" alt="Pixel-art portrait of David smiling and lifting his cap" width="1229" height="1280">
+        <img src="assets/david-pixel-lowres.png" alt="Pixel-art portrait of David smiling and lifting his cap" width="320" height="334">
       </div>
 
       <div class="about-copy">
@@ -710,17 +710,18 @@
         introCopy.style.opacity = fade;
         introCopy.style.filter = `blur(${Math.round(scrollProgress * 6)}px)`;
         introCopy.style.transform = `translateY(${scrollProgress * -48 - innerHeight * .02}px) scale(${1 - scrollProgress * .08})`;
-        scrollCue.style.opacity = Math.max(0, 1 - scrollProgress * 5);
+        const cueFade = Math.max(0, Math.min(1, 1 - (scrollProgress - .48) / .24));
+        scrollCue.style.opacity = cueFade;
         worldGrid.style.setProperty("--grid-offset", `${reduceMotion ? 0 : scrollY * -.12}px`);
         worldGrid.style.opacity = Math.min(.16, .035 + scrollY / innerHeight * .055);
-        if (scrollProgress >= .6) about.classList.add("is-visible");
+        if (scrollProgress >= .4) about.classList.add("is-visible");
       }
 
       const revealObserver = new IntersectionObserver((entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) entry.target.classList.add("is-visible");
         }
-      }, { threshold: .22 });
+      }, { threshold: .12 });
 
       revealObserver.observe(about);
 

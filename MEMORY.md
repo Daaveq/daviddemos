@@ -6,19 +6,19 @@ This file is the durable working memory for the David Demos landing-page project
 
 - Project name: David Demos.
 - Purpose: a polished landing page and portfolio hub for all demos built in this workspace.
-- Current state: the root landing page is a responsive, scroll-driven pixel-art experience with an early intro/about crossfade, a refined portrait, and a subtle slow-moving background grid; it is ready for visual review.
+- Current state: the root landing page is a responsive, scroll-driven pixel-art experience with a strongly overlapped intro/about transition, a deliberately low-resolution portrait, and a subtle slow-moving background grid; it is ready for visual review.
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
 - GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`; the remote is currently empty, so publishing a non-`main` task branch requires an explicitly approved one-time repository bootstrap or authenticated Git credentials.
-- Temporary public preview: `https://col-ottawa-effectiveness-viewing.trycloudflare.com`; this account-less quick tunnel serves commit `ef79980` from an isolated temporary web root, including the refined scroll story and portrait. It has no uptime guarantee and lasts only while the local server and tunnel remain running.
+- Temporary public preview: `https://col-ottawa-effectiveness-viewing.trycloudflare.com`; this account-less quick tunnel is updated from an isolated temporary web root with the latest scroll-story and low-resolution portrait refinements. It has no uptime guarantee and lasts only while the local server and tunnel remain running.
 
 ## Product Direction
 
 - The landing page should present all demos in one coherent portfolio experience.
 - Each demo should retain a clear identity, purpose, and direct path to exploration.
 - Demo claims and availability must be grounded in the corresponding source project.
-- `index.html` opens with one large “AI” above “can feel overwhelming sometimes” inside a pixel particle field. The about section overlaps the final intro scroll so “Hi, my name is David” arrives while the intro is still fading; a fixed grid drifts at 12% of foreground scroll speed, followed by Demos, Articles, and Tools placeholder cards.
-- `assets/david-pixel-refined.png` is the transparent, higher-resolution pixel-art portrait used in the about section. `assets/david-pixel-refined-source.png` retains its generated chroma-key source; the original `assets/david-pixel.png` and source remain available for comparison.
+- `index.html` opens with one large “AI” above “can feel overwhelming sometimes” inside a pixel particle field. The about section now overlaps 66vh into the intro on desktop and 48vh on narrower screens so “Hi, my name is David” arrives well before the intro finishes; “Scroll to simplify” remains visible above that arrival and fades during the handoff. A fixed grid drifts at 12% of foreground scroll speed, followed by Demos, Articles, and Tools placeholder cards.
+- `assets/david-pixel-lowres.png` is the transparent 320×334 low-resolution sprite portrait used in the about section. `assets/david-pixel-lowres-source.png` retains its generated chroma-key source; both earlier portrait treatments remain available for comparison.
 - The page uses a custom CSS pixel cursor on precise pointers, normal touch behavior on coarse pointers, canvas particles, scroll-driven transforms, and reduced-motion support.
 - `ai-compass.html` remains available at `/ai-compass.html` but is intentionally unlinked and out of scope for now.
 - `Previous Computer/` is the untouched recovery source archive and should remain available until the promoted site has been fully reviewed.
