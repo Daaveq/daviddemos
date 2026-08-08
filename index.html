@@ -319,6 +319,8 @@
       width: min(148%, 800px);
       max-width: none;
       justify-self: center;
+      transform: scale(1.42);
+      transform-origin: center bottom;
     }
 
     .about-copy {
@@ -1160,7 +1162,7 @@
         introCopy.style.opacity = fade;
         introCopy.style.filter = `blur(${Math.round(scrollProgress * 6)}px)`;
         introCopy.style.transform = `translateY(${scrollProgress * -48 - innerHeight * .02}px) scale(${1 - scrollProgress * .08})`;
-        const cueFade = Math.max(0, Math.min(1, 1 - (scrollProgress - .48) / .24));
+        const cueFade = Math.max(0, Math.min(1, 1 - (scrollProgress - .2) / .16));
         scrollCue.style.opacity = cueFade;
         worldGrid.style.setProperty("--grid-offset", `${reduceMotion ? 0 : scrollY * -.12}px`);
         worldGrid.style.opacity = Math.min(.16, .035 + scrollY / innerHeight * .055);
