@@ -6,7 +6,7 @@ This file is the durable working memory for the David Demos landing-page project
 
 - Project name: David Demos.
 - Purpose: a polished landing page and portfolio hub for all demos built in this workspace.
-- Current state: the root landing page is a responsive, scroll-driven pixel-art experience with a strongly overlapped intro/about transition, a friendly low-resolution portrait aligned to its panel, and a subtle slow-moving background grid; it is ready for visual review.
+- Current state: the root landing page offers a persistent two-mode presentation: the existing responsive 8-bit scroll story and a new light minimalist/neumorphic treatment with shared content and interactions; both are ready for visual review.
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
 - GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`; the remote is currently empty, so publishing a non-`main` task branch requires an explicitly approved one-time repository bootstrap or authenticated Git credentials.
@@ -17,7 +17,7 @@ This file is the durable working memory for the David Demos landing-page project
 - The landing page should present all demos in one coherent portfolio experience.
 - Each demo should retain a clear identity, purpose, and direct path to exploration.
 - Demo claims and availability must be grounded in the corresponding source project.
-- `index.html` opens with one large “AI” above “can feel overwhelming sometimes” inside a pixel particle field. The about section now overlaps 66vh into the intro on desktop and 48vh on narrower screens so “Hi, my name is David” arrives well before the intro finishes; “Scroll to simplify” remains visible above that arrival and fades during the handoff. A fixed grid drifts at 12% of foreground scroll speed, followed by Demos, Articles, and Tools placeholder cards.
+- `index.html` defaults to the 8-bit presentation and provides a fixed 8-bit/Minimal switch that persists the visitor’s choice in local storage. Minimal mode reinterprets the same scroll story with Manrope typography, cool-gray neumorphic surfaces, rounded controls, soft circular particles, and restrained blue, coral, and green accents. The page opens with one large “AI” above “can feel overwhelming sometimes” inside a particle field. The about section now overlaps 66vh into the intro on desktop and 48vh on narrower screens so “Hi, my name is David” arrives well before the intro finishes; “Scroll to simplify” remains visible above that arrival and fades during the handoff. A fixed grid drifts at 12% of foreground scroll speed, followed by Demos, Articles, and Tools placeholder cards.
 - `assets/david-pixel-friendly.png` is the transparent 320×320 low-resolution sprite portrait used in the about section, with brighter natural eyes and a warmer expression. `assets/david-pixel-friendly-source.png` retains its generated chroma-key source; earlier portrait treatments remain available for comparison.
 - The page uses a custom CSS pixel cursor on precise pointers, normal touch behavior on coarse pointers, canvas particles, scroll-driven transforms, and reduced-motion support.
 - `ai-compass.html` remains available at `/ai-compass.html` but is intentionally unlinked and out of scope for now.
@@ -45,7 +45,7 @@ This file is the durable working memory for the David Demos landing-page project
 - Build this repository as the landing page for all demos.
 - Adapt the process conventions without carrying over insurance-specific product, safety, runtime, or architecture rules.
 - Use `https://github.com/Daaveq/daviddemos` as the canonical GitHub repository.
-- Use an 8-bit visual system across the landing page, including typography, cursor, particles, cards, and David's portrait.
+- Keep the 8-bit visual system as the default landing-page mode and offer alternative presentations through one shared semantic page; the first alternative is a light minimalist/neumorphic mode selected through a persistent fixed switch.
 - Keep the main narrative practical and anti-buzzword: show what David built, what worked, and explain it simply.
 - Keep AI Compass unlinked and out of the primary experience for now.
 
@@ -60,6 +60,6 @@ This file is the durable working memory for the David Demos landing-page project
 ## Next Steps
 
 - Inventory the available demo projects and extract accurate titles, descriptions, imagery, and live links.
-- Review the 8-bit page locally and refine pacing, copy, palette, and portrait treatment.
+- Review both the 8-bit and minimalist modes in a browser at desktop and mobile widths, then refine their pacing, palette, and portrait treatments.
 - Agree on the first-release information architecture and replace placeholder resources.
 - Decide whether to retain the single-file static architecture or migrate after the baseline is reviewed.
