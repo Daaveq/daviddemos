@@ -10,7 +10,7 @@ This file is the durable working memory for the David Demos landing-page project
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
 - GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`; the remote is currently empty, so publishing a non-`main` task branch requires an explicitly approved one-time repository bootstrap or authenticated Git credentials.
-- Public site: `https://daviddemos.com`, routed through the authenticated Cloudflare named tunnel `david-demos` to an isolated local web root containing the current landing page and required assets. The domain and HTTPS are active, but availability still depends on the local origin server and named tunnel processes remaining online.
+- Public site: `https://daviddemos.com`, routed through the authenticated Cloudflare named tunnel `david-demos` to the isolated `.production/` web root. The origin and tunnel run as enabled, restartable systemd user services; user lingering is enabled so they survive logout and start after host reboots.
 - Temporary preview: `https://plumbing-sofa-april-latinas.trycloudflare.com`; this account-less quick tunnel serves the same isolated build and has no uptime guarantee.
 
 ## Product Direction
@@ -56,7 +56,7 @@ This file is the durable working memory for the David Demos landing-page project
 - The intended audience and primary call to action.
 - Hosting target, analytics, and contact method.
 - Which concrete demos, articles, and tools should replace the current placeholders.
-- Whether to replace the temporary account-less preview with a durable named tunnel and custom domain.
+- Whether to retire the temporary account-less preview now that the custom domain uses a durable named tunnel.
 
 ## Next Steps
 
@@ -64,3 +64,4 @@ This file is the durable working memory for the David Demos landing-page project
 - Review both the 8-bit and minimalist modes in a browser at desktop and mobile widths, then refine their pacing, palette, and portrait treatments.
 - Agree on the first-release information architecture and replace placeholder resources.
 - Decide whether to retain the single-file static architecture or migrate after the baseline is reviewed.
+- Use `npm run publish:production` after approved site changes, then restart `david-demos-origin.service` if needed and verify the public content.

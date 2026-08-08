@@ -1,0 +1,13 @@
+[Unit]
+Description=David Demos isolated static origin
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 -m http.server 4181 --bind 127.0.0.1 --directory %h/David-Demos/.production
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target

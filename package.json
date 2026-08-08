@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "python3 -m http.server 4173 --bind 127.0.0.1",
     "start": "python3 -m http.server 4173 --bind 127.0.0.1",
-    "check": "node scripts/check-site.mjs"
+    "check": "node scripts/check-site.mjs",
+    "publish:production": "bash scripts/publish-production.sh"
   }
 }

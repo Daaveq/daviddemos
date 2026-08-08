@@ -1,0 +1,14 @@
+[Unit]
+Description=Cloudflare named tunnel for daviddemos.com
+After=network-online.target david-demos-origin.service
+Wants=network-online.target
+Requires=david-demos-origin.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/cloudflared tunnel --no-autoupdate --url http://127.0.0.1:4181 run david-demos
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
