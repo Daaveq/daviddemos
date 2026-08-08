@@ -10,7 +10,8 @@ This file is the durable working memory for the David Demos landing-page project
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
 - GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`; the remote is currently empty, so publishing a non-`main` task branch requires an explicitly approved one-time repository bootstrap or authenticated Git credentials.
-- Temporary public preview: `https://plumbing-sofa-april-latinas.trycloudflare.com`; this account-less quick tunnel is updated from an isolated temporary web root with the latest scroll-story and low-resolution portrait refinements. It has no uptime guarantee and lasts only while the local server and tunnel remain running.
+- Public site: `https://daviddemos.com`, routed through the authenticated Cloudflare named tunnel `david-demos` to an isolated local web root containing the current landing page and required assets. The domain and HTTPS are active, but availability still depends on the local origin server and named tunnel processes remaining online.
+- Temporary preview: `https://plumbing-sofa-april-latinas.trycloudflare.com`; this account-less quick tunnel serves the same isolated build and has no uptime guarantee.
 
 ## Product Direction
 
