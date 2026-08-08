@@ -10,7 +10,7 @@ This file is the durable working memory for the David Demos landing-page project
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
 - GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`; the remote is currently empty, so publishing a non-`main` task branch requires an explicitly approved one-time repository bootstrap or authenticated Git credentials.
-- Temporary public preview: `https://amongst-laptop-foto-tend.trycloudflare.com`; this account-less quick tunnel serves the previously published 8-bit build from an isolated temporary web root, does not yet include the `feat/refine-scroll-story` refinements, has no uptime guarantee, and lasts only while the local server and tunnel remain running.
+- Temporary public preview: `https://col-ottawa-effectiveness-viewing.trycloudflare.com`; this account-less quick tunnel serves commit `ef79980` from an isolated temporary web root, including the refined scroll story and portrait. It has no uptime guarantee and lasts only while the local server and tunnel remain running.
 
 ## Product Direction
 
