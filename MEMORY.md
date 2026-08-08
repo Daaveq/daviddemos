@@ -10,7 +10,7 @@ This file is the durable working memory for the David Demos landing-page project
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
 - GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`.
-- Temporary public preview: `https://amongst-laptop-foto-tend.trycloudflare.com`; this account-less quick tunnel has no uptime guarantee and currently serves the earlier recovered baseline from an isolated temporary web root.
+- Temporary public preview: `https://amongst-laptop-foto-tend.trycloudflare.com`; this account-less quick tunnel serves the 8-bit redesign and final pixel portrait from an isolated temporary web root, has no uptime guarantee, and lasts only while the local server and tunnel remain running.
 
 ## Product Direction
 
@@ -55,7 +55,7 @@ This file is the durable working memory for the David Demos landing-page project
 - The intended audience and primary call to action.
 - Hosting target, analytics, and contact method.
 - Which concrete demos, articles, and tools should replace the current placeholders.
-- Whether the temporary Cloudflare preview should be updated to publish the newly generated portrait and redesigned page.
+- Whether to replace the temporary account-less preview with a durable named tunnel and custom domain.
 
 ## Next Steps
 
