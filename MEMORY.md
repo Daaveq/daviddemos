@@ -9,7 +9,7 @@ This file is the durable working memory for the David Demos landing-page project
 - Current state: the root landing page offers a persistent two-mode presentation: a light minimalist/neumorphic default and the existing responsive 8-bit scroll story with shared content and interactions; both are ready for visual review.
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
-- GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`; the remote is currently empty, so publishing a non-`main` task branch requires an explicitly approved one-time repository bootstrap or authenticated Git credentials.
+- GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`; SSH origin is configured; use scoped non-main task branches for commits and pushes.
 - Public site: `https://daviddemos.com`, routed through the authenticated Cloudflare named tunnel `david-demos` to the isolated `.production/` web root. The origin and tunnel run as enabled, restartable systemd user services; user lingering is enabled so they survive logout and start after host reboots.
 - Temporary preview: `https://plumbing-sofa-april-latinas.trycloudflare.com`; this account-less quick tunnel serves the same isolated build and has no uptime guarantee.
 
@@ -65,3 +65,9 @@ This file is the durable working memory for the David Demos landing-page project
 - Agree on the first-release information architecture and replace placeholder resources.
 - Decide whether to retain the single-file static architecture or migrate after the baseline is reviewed.
 - Use `npm run publish:production` after approved site changes, then restart `david-demos-origin.service` if needed and verify the public content.
+
+## Stay a little listing
+
+- User authorized publication of Stay a little under the Demos card. index.html links to https://owns-prepaid-campaigns-finals.trycloudflare.com, describes shared apartments with calendar availability and both-host approval, and states friends code required / temporary demo link. Never publish the access code.
+- Published through npm run publish:production; public desktop/mobile browser checks passed for both themes and the live destination. Existing production services and unrelated recovery archive were preserved.
+- Current task branch: feat/stay-a-little. Booking hostname is temporary; update this link if the separate apartment preview changes or receives stable hosting.
