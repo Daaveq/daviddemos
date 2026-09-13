@@ -8,6 +8,7 @@ deploy_root="$repo_root/.production"
 
 install -d -m 0755 "$deploy_root/assets"
 install -m 0644 "$repo_root/index.html" "$deploy_root/index.html"
+install -m 0644 "$repo_root/demos.html" "$deploy_root/demos.html"
 install -m 0644 "$repo_root/assets/David-bg.png" "$deploy_root/assets/David-bg.png"
 install -m 0644 "$repo_root/assets/david-pixel-friendly.png" "$deploy_root/assets/david-pixel-friendly.png"
 

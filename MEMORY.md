@@ -6,16 +6,17 @@ This file is the durable working memory for the David Demos landing-page project
 
 - Project name: David Demos.
 - Purpose: a polished landing page and portfolio hub for all demos built in this workspace.
-- Current state: the root landing page offers a persistent two-mode presentation: a light minimalist/neumorphic default and the existing responsive 8-bit scroll story with shared content and interactions; both are ready for visual review.
+- Current state: the root landing page offers a persistent two-mode presentation and links to a responsive demos directory containing five prototype cards; both Minimal and 8-bit presentations share the visitor's saved preference.
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
 - GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`; SSH origin is configured; use scoped non-main task branches for commits and pushes.
-- Public site: `https://daviddemos.com`, routed through the authenticated Cloudflare named tunnel `david-demos` to the isolated `.production/` web root. The origin and tunnel run as enabled, restartable systemd user services; user lingering is enabled so they survive logout and start after host reboots.
+- Public site: `https://daviddemos.com`, including the live `/demos.html` directory, routed through the authenticated Cloudflare named tunnel `david-demos` to the isolated `.production/` web root. The origin and tunnel run as enabled, restartable systemd user services; user lingering is enabled so they survive logout and start after host reboots.
 - Temporary preview: `https://plumbing-sofa-april-latinas.trycloudflare.com`; this account-less quick tunnel serves the same isolated build and has no uptime guarantee.
 
 ## Product Direction
 
 - The landing page should present all demos in one coherent portfolio experience.
+- `demos.html` is the central demos directory. Stay a little, IF Claims Copilot, and Stellar AI Glossary have verified live links; Writer MVP and Dora the GEO Explorer remain visible with a graceful domain-pending state until stable public front-end hostnames exist.
 - Each demo should retain a clear identity, purpose, and direct path to exploration.
 - Demo claims and availability must be grounded in the corresponding source project.
 - `index.html` defaults to the minimalist presentation and provides a fixed Minimal/8-bit switch that persists the visitor’s choice in local storage. Minimal mode reinterprets the same scroll story with Manrope typography, cool-gray neumorphic surfaces, rounded controls, soft circular particles, and restrained blue, coral, and green accents. The page opens with one large “AI” above “can feel overwhelming sometimes” inside a particle field. The about section now overlaps 66vh into the intro on desktop and 48vh on narrower screens so “Hi, my name is David” arrives well before the intro finishes; “Scroll to simplify” has no competing blink animation and fades out before that arrival so it cannot ghost behind the about copy. A fixed grid drifts at 12% of foreground scroll speed, followed by Demos, Articles, and Tools placeholder cards.
@@ -52,15 +53,15 @@ This file is the durable working memory for the David Demos landing-page project
 
 ## Open Questions
 
-- Which demos belong in the first release and where their source projects live.
 - The intended audience and primary call to action.
 - Hosting target, analytics, and contact method.
-- Which concrete demos, articles, and tools should replace the current placeholders.
+- Which concrete articles and tools should replace the remaining landing-page placeholders.
+- Which stable public front-end domains should be assigned to Writer MVP and Dora the GEO Explorer.
 - Whether to retire the temporary account-less preview now that the custom domain uses a durable named tunnel.
 
 ## Next Steps
 
-- Inventory the available demo projects and extract accurate titles, descriptions, imagery, and live links.
+- Connect stable public front-end domains for Writer MVP and Dora, then turn their pending directory cards into links.
 - Review both the 8-bit and minimalist modes in a browser at desktop and mobile widths, then refine their pacing, palette, and portrait treatments.
 - Agree on the first-release information architecture and replace placeholder resources.
 - Decide whether to retain the single-file static architecture or migrate after the baseline is reviewed.
@@ -68,6 +69,6 @@ This file is the durable working memory for the David Demos landing-page project
 
 ## Stay a little listing
 
-- User authorized publication of Stay a little under the Demos card. index.html links to https://stayalittle.daviddemos.com, describes shared apartments with calendar availability and both-host approval, and states friends code required. Never publish the access code.
+- User authorized publication of Stay a little in the demos directory. `demos.html` links to https://stayalittle.daviddemos.com, describes shared apartments with calendar availability and both-host approval, and states friends code required. Never publish the access code.
 - Published through npm run publish:production; public desktop/mobile browser checks passed for both themes and the live destination. Existing production services and unrelated recovery archive were preserved.
 - Current branch: main, created from the approved feat/stay-subdomain release on 2026-09-13. Booking hostname is stable, backed by a separate dedicated named tunnel and persistent booking origin; existing portfolio services are unchanged.

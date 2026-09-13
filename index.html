@@ -954,7 +954,10 @@
       html[data-theme="minimal"] .status { width: 100%; }
       html[data-theme="minimal"] .resource-card { padding: 28px 24px; }
     }
-  .demo-link{color:inherit;text-decoration:underline;text-underline-offset:5px;font-weight:700}.demo-link:focus-visible{outline:2px solid currentColor;outline-offset:6px}.resource-card .demo-access-note{font-size:12px}
+  .resource-card-link { display: block; color: inherit; text-decoration: none; }
+  .resource-card-link .card-action { margin-top: 28px; color: currentColor; font-weight: 700; }
+  .resource-card-link:focus-visible { outline: 4px solid var(--yellow); outline-offset: 7px; }
+  html[data-theme="minimal"] .resource-card-link:focus-visible { outline: 3px solid #489cc1; }
   </style>
 </head>
 <body>
@@ -1012,17 +1015,16 @@
       </div>
 
       <div class="resource-grid">
-        <article class="resource-card">
-          <span class="coming-soon">Live prototype</span>
+        <a class="resource-card resource-card-link" href="demos.html">
+          <span class="coming-soon">Explore all</span>
           <span class="card-number">01 / 03</span>
           <svg class="card-icon" viewBox="0 0 16 16" aria-hidden="true">
             <path fill="currentColor" d="M1 2h14v10H9v2H7v-2H1V2zm2 2v6h10V4H3zm2 1h2v2H5V5zm4 0h2v2H9V5zM5 8h6v1H5V8z"/>
           </svg>
           <h3>Demos</h3>
-          <p><strong>Stay a little</strong> — two apartments shared with friends, with calendar availability and approval from both hosts.</p>
-          <p><a class="demo-link" href="https://stayalittle.daviddemos.com">Open Stay a little ↗</a></p>
-          <p class="demo-access-note">Friends code required.</p>
-        </article>
+          <p>Five practical prototypes covering claims, writing, search visibility, shared apartments, and AI learning.</p>
+          <p class="card-action">Browse the demos →</p>
+        </a>
 
         <article class="resource-card">
           <span class="coming-soon">Coming soon</span>

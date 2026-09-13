@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en" data-theme="minimal">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore David's practical AI prototypes for claims, writing, search visibility, apartment sharing, and AI learning.">
+  <title>Demos — David</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <script>
+    try {
+      if (localStorage.getItem("david-site-mode") === "8bit") delete document.documentElement.dataset.theme;
+    } catch (error) {
+      // Keep the default theme when storage is blocked.
+    }
+  </script>
+  <style>
+    :root {
+      --night: #0b1020;
+      --panel: #17233c;
+      --cream: #fff4d6;
+      --muted: #b8c5d6;
+      --cyan: #56e5ff;
+      --mint: #69f0ae;
+      --yellow: #ffd166;
+      --coral: #ff6b6b;
+      --violet: #a98bff;
+      --ink: #09101e;
+      --pixel: 4px;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--night); color-scheme: dark; }
+    body {
+      min-width: 320px;
+      margin: 0;
+      overflow-x: hidden;
+      background: var(--night);
+      color: var(--cream);
+      font-family: "VT323", ui-monospace, monospace;
+      font-size: 22px;
+      cursor: none;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      opacity: .06;
+      background-image:
+        linear-gradient(rgba(86, 229, 255, .52) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(86, 229, 255, .52) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(ellipse at top, #000 15%, transparent 76%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 9990;
+      pointer-events: none;
+      opacity: .16;
+      background: repeating-linear-gradient(to bottom, transparent 0, transparent 3px, rgba(0, 0, 0, .22) 4px);
+      mix-blend-mode: multiply;
+    }
+
+    a, button { cursor: none; }
+    a:focus-visible, button:focus-visible { outline: 4px solid var(--yellow); outline-offset: 5px; }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 10000;
+      padding: 10px 14px;
+      color: var(--ink);
+      background: var(--yellow);
+      font-family: "Press Start 2P", monospace;
+      font-size: 10px;
+      transform: translateY(-180%);
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .pixel-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10001;
+      width: 6px;
+      height: 6px;
+      pointer-events: none;
+      background: var(--cream);
+      box-shadow: 0 6px var(--cream), 0 12px var(--cream), 6px 12px var(--cream), 0 18px var(--cream), 6px 18px var(--cream), 12px 18px var(--cream), 0 24px var(--cream), 6px 24px var(--cream), 12px 24px var(--night), 6px 30px var(--night), 12px 30px var(--cream), 18px 30px var(--cream);
+      filter: drop-shadow(2px 2px 0 var(--night));
+      transform: translate(-50px, -50px);
+    }
+
+    .pixel-cursor.is-active { filter: drop-shadow(2px 2px 0 var(--night)) drop-shadow(0 0 5px var(--cyan)); }
+
+    .mode-switch {
+      position: fixed;
+      top: 22px;
+      right: 22px;
+      z-index: 100;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 190px;
+      min-height: 50px;
+      padding: 5px;
+      border: 3px solid var(--cyan);
+      appearance: none;
+      color: var(--cream);
+      background: #10182c;
+      box-shadow: 5px 5px 0 rgba(0, 0, 0, .45);
+      font-family: "Press Start 2P", monospace;
+      font-size: 7px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .mode-switch::before {
+      content: "";
+      position: absolute;
+      inset: 5px 5px 5px auto;
+      z-index: 0;
+      width: calc(50% - 5px);
+      background: var(--cyan);
+    }
+
+    .mode-option { position: relative; z-index: 1; display: grid; place-items: center; color: var(--muted); }
+    .mode-option:last-child { color: var(--ink); }
+
+    .site-shell {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 30px 0 120px;
+    }
+
+    .topbar { display: flex; align-items: center; min-height: 58px; padding-right: 230px; }
+    .back-link {
+      color: var(--cyan);
+      font-family: "Press Start 2P", monospace;
+      font-size: 9px;
+      line-height: 1.6;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .back-link:hover { color: var(--yellow); }
+    .hero { max-width: 900px; padding: clamp(90px, 14vw, 170px) 0 clamp(70px, 10vw, 120px); }
+    .eyebrow {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin: 0 0 26px;
+      color: var(--mint);
+      font-family: "Press Start 2P", monospace;
+      font-size: 10px;
+      line-height: 1.7;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before { content: ""; width: 11px; height: 11px; background: var(--mint); box-shadow: 4px 4px 0 rgba(105, 240, 174, .25); }
+    h1 {
+      max-width: 850px;
+      margin: 0;
+      font-family: "Press Start 2P", monospace;
+      font-size: clamp(36px, 6.2vw, 76px);
+      line-height: 1.2;
+      letter-spacing: -.04em;
+      text-wrap: balance;
+      text-shadow: 6px 6px 0 rgba(0, 0, 0, .45);
+    }
+
+    h1 span { color: var(--coral); }
+    .intro { max-width: 670px; margin: 34px 0 0; color: var(--muted); font-size: clamp(25px, 2.5vw, 31px); line-height: 1.25; }
+    .demo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+
+    .demo-card {
+      position: relative;
+      display: flex;
+      min-height: 390px;
+      padding: 34px 30px;
+      overflow: hidden;
+      flex-direction: column;
+      border: var(--pixel) solid currentColor;
+      color: var(--cyan);
+      background: var(--panel);
+      box-shadow: 9px 9px 0 rgba(0, 0, 0, .52);
+      text-decoration: none;
+      transition: transform 150ms steps(2, end), box-shadow 150ms steps(2, end);
+    }
+
+    .demo-card:nth-child(2) { color: var(--coral); }
+    .demo-card:nth-child(3) { color: var(--yellow); }
+    .demo-card:nth-child(4) { color: var(--violet); }
+    .demo-card:nth-child(5) { color: var(--mint); }
+    a.demo-card:hover, a.demo-card:focus-visible { transform: translate(-5px, -5px); box-shadow: 14px 14px 0 rgba(0, 0, 0, .52); }
+    .demo-card.pending { opacity: .72; }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; }
+    .card-number { font-family: "Press Start 2P", monospace; font-size: 9px; line-height: 1.5; }
+    .card-status {
+      padding: 8px 10px;
+      color: var(--ink);
+      background: currentColor;
+      font-family: "Press Start 2P", monospace;
+      font-size: 7px;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .card-icon { width: 58px; height: 58px; margin: 62px 0 27px; color: currentColor; image-rendering: pixelated; }
+    .demo-card h2 {
+      margin: 0 0 17px;
+      color: var(--cream);
+      font-family: "Press Start 2P", monospace;
+      font-size: clamp(17px, 2vw, 22px);
+      line-height: 1.45;
+      text-transform: uppercase;
+    }
+
+    .product-name {
+      display: block;
+      margin-bottom: 13px;
+      color: currentColor;
+      font-family: "Press Start 2P", monospace;
+      font-size: 8px;
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+
+    .demo-card p { margin: 0; color: var(--muted); font-size: 23px; line-height: 1.25; }
+    .card-action { margin-top: auto; padding-top: 28px; color: currentColor; font-weight: 700; }
+    .access-note { display: block; margin-top: 8px; color: var(--muted); font-size: 17px; font-weight: 400; }
+    .directory-note {
+      margin: 50px 0 0;
+      padding: 22px 24px;
+      border-left: var(--pixel) solid var(--yellow);
+      color: var(--muted);
+      background: rgba(23, 35, 60, .62);
+      font-size: 20px;
+      line-height: 1.4;
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 40px 20px 54px;
+      border-top: var(--pixel) solid rgba(184, 197, 214, .2);
+      color: var(--muted);
+      font-family: "Press Start 2P", monospace;
+      font-size: 8px;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    html[data-theme="minimal"] {
+      --night: #e9edf2;
+      --panel: #e9edf2;
+      --cream: #17202a;
+      --muted: #65717d;
+      --cyan: #489cc1;
+      --mint: #21a87d;
+      --yellow: #e1a12d;
+      --coral: #ff7272;
+      --violet: #7b83d6;
+      --ink: #17202a;
+      color-scheme: light;
+      background: #e9edf2;
+    }
+
+    html[data-theme="minimal"] body { background: #e9edf2; color: #17202a; font-family: "Manrope", system-ui, sans-serif; font-size: 17px; cursor: auto; }
+    html[data-theme="minimal"] body::before { opacity: 1; background: radial-gradient(circle at 16% 8%, rgba(255,255,255,.9), transparent 27%), radial-gradient(circle at 86% 40%, rgba(210,219,230,.72), transparent 34%); mask-image: none; }
+    html[data-theme="minimal"] body::after, html[data-theme="minimal"] .pixel-cursor { display: none; }
+    html[data-theme="minimal"] a, html[data-theme="minimal"] button { cursor: pointer; }
+    html[data-theme="minimal"] a:focus-visible, html[data-theme="minimal"] button:focus-visible { outline: 3px solid #489cc1; outline-offset: 5px; }
+    html[data-theme="minimal"] .mode-switch {
+      width: 210px;
+      min-height: 54px;
+      padding: 6px;
+      border: 0;
+      border-radius: 18px;
+      color: #17202a;
+      background: #e9edf2;
+      box-shadow: -7px -7px 16px rgba(255,255,255,.85), 7px 7px 16px rgba(174,184,197,.52);
+      font-family: "Manrope", system-ui, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    html[data-theme="minimal"] .mode-switch::before { inset: 6px auto 6px 6px; width: calc(50% - 6px); border-radius: 13px; background: #e9edf2; box-shadow: inset -3px -3px 7px rgba(255,255,255,.9), inset 3px 3px 7px rgba(174,184,197,.48); }
+    html[data-theme="minimal"] .mode-option, html[data-theme="minimal"] .mode-option:last-child { color: #7b8692; }
+    html[data-theme="minimal"] .mode-option:first-child { color: #17202a; }
+    html[data-theme="minimal"] .back-link { color: #51606d; font-family: "Manrope", system-ui, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .12em; }
+    html[data-theme="minimal"] .eyebrow { color: #687480; font-family: "Manrope", system-ui, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .18em; }
+    html[data-theme="minimal"] .eyebrow::before { width: 7px; height: 7px; border-radius: 50%; box-shadow: 0 0 0 5px rgba(33,168,125,.1); }
+    html[data-theme="minimal"] h1 { color: #17202a; font-family: "Manrope", system-ui, sans-serif; font-size: clamp(58px, 8vw, 100px); font-weight: 500; line-height: .98; letter-spacing: -.065em; text-shadow: none; }
+    html[data-theme="minimal"] .intro { color: #65717d; font-size: clamp(18px, 2vw, 22px); line-height: 1.65; }
+    html[data-theme="minimal"] .demo-grid { gap: 30px; }
+    html[data-theme="minimal"] .demo-card {
+      min-height: 410px;
+      padding: 34px 32px;
+      border: 0;
+      border-radius: 30px;
+      background: #e9edf2;
+      box-shadow: -12px -12px 25px rgba(255,255,255,.85), 12px 12px 25px rgba(174,184,197,.5);
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+
+    html[data-theme="minimal"] a.demo-card:hover, html[data-theme="minimal"] a.demo-card:focus-visible { transform: translateY(-6px); box-shadow: -16px -16px 30px rgba(255,255,255,.9), 16px 16px 30px rgba(174,184,197,.54); }
+    html[data-theme="minimal"] .demo-card.pending { opacity: .72; box-shadow: inset -6px -6px 14px rgba(255,255,255,.78), inset 6px 6px 14px rgba(174,184,197,.34); }
+    html[data-theme="minimal"] .card-number, html[data-theme="minimal"] .product-name { font-family: "Manrope", system-ui, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .12em; }
+    html[data-theme="minimal"] .card-status { padding: 8px 11px; border-radius: 10px; color: currentColor; background: #e9edf2; box-shadow: inset -3px -3px 7px rgba(255,255,255,.86), inset 3px 3px 7px rgba(174,184,197,.4); font-family: "Manrope", system-ui, sans-serif; font-size: 8px; font-weight: 700; letter-spacing: .08em; }
+    html[data-theme="minimal"] .card-icon { width: 54px; height: 54px; margin-top: 58px; padding: 13px; border-radius: 16px; background: #e9edf2; box-shadow: inset -4px -4px 8px rgba(255,255,255,.86), inset 4px 4px 8px rgba(174,184,197,.4); image-rendering: auto; }
+    html[data-theme="minimal"] .demo-card h2 { color: #17202a; font-family: "Manrope", system-ui, sans-serif; font-size: 27px; font-weight: 600; line-height: 1.2; letter-spacing: -.025em; text-transform: none; }
+    html[data-theme="minimal"] .demo-card p { color: #65717d; font-size: 15px; line-height: 1.65; }
+    html[data-theme="minimal"] .card-action { color: currentColor; font-size: 14px; }
+    html[data-theme="minimal"] .access-note { font-size: 12px; }
+    html[data-theme="minimal"] .directory-note { border: 0; border-radius: 18px; background: #e9edf2; box-shadow: inset -4px -4px 9px rgba(255,255,255,.8), inset 4px 4px 9px rgba(174,184,197,.4); font-size: 14px; line-height: 1.6; }
+    html[data-theme="minimal"] footer { border-top: 1px solid rgba(100,113,126,.12); font-family: "Manrope", system-ui, sans-serif; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+
+    @media (max-width: 760px) {
+      .site-shell { width: min(100% - 30px, 1180px); padding-top: 18px; padding-bottom: 90px; }
+      .topbar { min-height: 56px; padding-right: 0; }
+      .mode-switch { top: 14px; right: 14px; width: 168px; min-height: 46px; }
+      html[data-theme="minimal"] .mode-switch { width: 184px; min-height: 49px; }
+      .back-link { max-width: 100px; }
+      .hero { padding: 92px 0 72px; }
+      .demo-grid { grid-template-columns: 1fr; gap: 25px; }
+      .demo-card { min-height: 350px; padding: 28px 24px; }
+      html[data-theme="minimal"] .demo-card { min-height: 360px; padding: 28px 25px; }
+      .card-icon { margin-top: 48px; }
+    }
+
+    @media (max-width: 430px) {
+      h1 { font-size: clamp(35px, 12vw, 51px); }
+      html[data-theme="minimal"] h1 { font-size: clamp(50px, 17vw, 70px); }
+      .intro { font-size: 23px; }
+      html[data-theme="minimal"] .intro { font-size: 17px; }
+      .card-status { max-width: 125px; text-align: center; }
+    }
+
+    @media (pointer: coarse), (hover: none) {
+      body, a, button { cursor: auto; }
+      .pixel-cursor { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#demos">Skip to demos</a>
+  <div class="pixel-cursor" aria-hidden="true"></div>
+  <button class="mode-switch" type="button" aria-label="Switch to 8-bit mode" aria-pressed="true">
+    <span class="mode-option">Minimal</span>
+    <span class="mode-option">8-bit</span>
+  </button>
+
+  <main class="site-shell">
+    <nav class="topbar" aria-label="Primary navigation">
+      <a class="back-link" href="index.html">← David / Home</a>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">Things I have built</p>
+      <h1>Explore the <span>demos.</span></h1>
+      <p class="intro">Small, practical experiments for understanding where AI helps, how it behaves, and what it takes to make it useful.</p>
+    </header>
+
+    <section id="demos" class="demo-grid" aria-label="David's demos">
+      <a class="demo-card" href="https://stayalittle.daviddemos.com">
+        <div class="card-top"><span class="card-number">01 / 05</span><span class="card-status">Live ↗</span></div>
+        <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h2v2H5v14h14V5h-2V3h4v18H3V3h2zm4 0h6v2H9V3zm-2 6h4v4H7V9zm6 0h4v4h-4V9zm-6 6h4v2H7v-2zm6 0h4v2h-4v-2z"/></svg>
+        <span class="product-name">Stay a little</span>
+        <h2>Apartment Booking</h2>
+        <p>A friends-only way to see when David’s and Sophie’s apartments are free, request dates, and wait for approval from both hosts.</p>
+        <span class="card-action">Open the booking demo ↗<small class="access-note">Friends code required.</small></span>
+      </a>
+
+      <a class="demo-card" href="https://co-pilot-ai.daviddemos.com">
+        <div class="card-top"><span class="card-number">02 / 05</span><span class="card-status">Live ↗</span></div>
+        <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 4h18v16H3V4zm2 2v12h14V6H5zm2 2h5v2H7V8zm0 4h10v2H7v-2zm0 3h7v2H7v-2zm9-7h2v2h-2V8z"/></svg>
+        <span class="product-name">Claims Copilot</span>
+        <h2>IF Insurance</h2>
+        <p>An AI-assisted claims workspace that reviews synthetic phone-damage cases, finds evidence gaps, drafts follow-up, and keeps decisions with the handler.</p>
+        <span class="card-action">Open Claims Copilot ↗</span>
+      </a>
+
+      <article class="demo-card pending">
+        <div class="card-top"><span class="card-number">03 / 05</span><span class="card-status">Domain pending</span></div>
+        <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h11l3 3v15H5V3zm2 2v14h10V8h-3V5H7zm2 6h6v2H9v-2zm0 4h6v2H9v-2z"/></svg>
+        <span class="product-name">Storia</span>
+        <h2>Writer MVP</h2>
+        <p>An AI writing workspace for developing ideas, generating drafts, and revising text with focused voice and review agents.</p>
+        <span class="card-action">Public link coming soon</span>
+      </article>
+
+      <article class="demo-card pending">
+        <div class="card-top"><span class="card-number">04 / 05</span><span class="card-status">Domain pending</span></div>
+        <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2 3 6v12l9 4 9-4V6l-9-4zm0 2.2L17.9 7 12 9.8 6.1 7 12 4.2zM5 8.5l6 2.8v8.1l-6-2.7V8.5zm8 10.9v-8.1l6-2.8v8.2l-6 2.7z"/></svg>
+        <span class="product-name">Generative engine visibility</span>
+        <h2>Dora the GEO Explorer</h2>
+        <p>A dashboard for exploring how brands appear in AI-generated answers, including visibility, sentiment, placement, competitors, and cited sources.</p>
+        <span class="card-action">Public link coming soon</span>
+      </article>
+
+      <a class="demo-card" href="https://glossary.daviddemos.com">
+        <div class="card-top"><span class="card-number">05 / 05</span><span class="card-status">Live ↗</span></div>
+        <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 3h16v18H4V3zm2 2v14h12V5H6zm2 2h8v2H8V7zm0 4h3v2H8v-2zm5 0h3v2h-3v-2zm-5 4h8v2H8v-2z"/></svg>
+        <span class="product-name">Stellar</span>
+        <h2>AI Glossary</h2>
+        <p>A searchable English and Swedish AI glossary where workshop participants can choose terms and create a practical A4 handout.</p>
+        <span class="card-action">Open the AI Glossary ↗</span>
+      </a>
+    </section>
+
+    <p class="directory-note">Three demos are live today. Writer MVP and Dora are collected here too, and their cards will become clickable as soon as stable public front-end domains are connected.</p>
+  </main>
+
+  <footer>Built by David · One useful experiment at a time</footer>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const modeSwitch = document.querySelector(".mode-switch");
+      const cursor = document.querySelector(".pixel-cursor");
+      const coarsePointer = matchMedia("(pointer: coarse)").matches;
+
+      function isMinimalMode() {
+        return root.dataset.theme === "minimal";
+      }
+
+      function updateModeControl() {
+        const minimal = isMinimalMode();
+        modeSwitch.setAttribute("aria-pressed", String(minimal));
+        modeSwitch.setAttribute("aria-label", minimal ? "Switch to 8-bit mode" : "Switch to minimalist mode");
+      }
+
+      modeSwitch.addEventListener("click", () => {
+        const mode = isMinimalMode() ? "8bit" : "minimal";
+        if (mode === "minimal") root.dataset.theme = "minimal";
+        else delete root.dataset.theme;
+        try { localStorage.setItem("david-site-mode", mode); } catch (error) {}
+        updateModeControl();
+      });
+
+      if (!coarsePointer) {
+        addEventListener("pointermove", (event) => {
+          cursor.style.transform = "translate(" + (event.clientX + 2) + "px, " + (event.clientY + 2) + "px)";
+        });
+        document.querySelectorAll("a, button").forEach((element) => {
+          element.addEventListener("pointerenter", () => cursor.classList.add("is-active"));
+          element.addEventListener("pointerleave", () => cursor.classList.remove("is-active"));
+        });
+      }
+
+      updateModeControl();
+    })();
+  </script>
+</body>
+</html>
