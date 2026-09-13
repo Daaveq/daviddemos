@@ -68,6 +68,6 @@ This file is the durable working memory for the David Demos landing-page project
 
 ## Stay a little listing
 
-- User authorized publication of Stay a little under the Demos card. index.html links to https://owns-prepaid-campaigns-finals.trycloudflare.com, describes shared apartments with calendar availability and both-host approval, and states friends code required / temporary demo link. Never publish the access code.
+- User authorized publication of Stay a little under the Demos card. index.html links to https://stayalittle.daviddemos.com, describes shared apartments with calendar availability and both-host approval, and states friends code required. Never publish the access code.
 - Published through npm run publish:production; public desktop/mobile browser checks passed for both themes and the live destination. Existing production services and unrelated recovery archive were preserved.
-- Current task branch: feat/stay-a-little. Booking hostname is temporary; update this link if the separate apartment preview changes or receives stable hosting.
+- Current task branch: feat/stay-subdomain. Booking hostname is stable, backed by a separate dedicated named tunnel and persistent booking origin; existing portfolio services are unchanged.
