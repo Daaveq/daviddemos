@@ -70,4 +70,4 @@ This file is the durable working memory for the David Demos landing-page project
 
 - User authorized publication of Stay a little under the Demos card. index.html links to https://stayalittle.daviddemos.com, describes shared apartments with calendar availability and both-host approval, and states friends code required. Never publish the access code.
 - Published through npm run publish:production; public desktop/mobile browser checks passed for both themes and the live destination. Existing production services and unrelated recovery archive were preserved.
-- Current task branch: feat/stay-subdomain. Booking hostname is stable, backed by a separate dedicated named tunnel and persistent booking origin; existing portfolio services are unchanged.
+- Current branch: main, created from the approved feat/stay-subdomain release on 2026-09-13. Booking hostname is stable, backed by a separate dedicated named tunnel and persistent booking origin; existing portfolio services are unchanged.
