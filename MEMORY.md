@@ -16,7 +16,7 @@ This file is the durable working memory for the David Demos landing-page project
 ## Product Direction
 
 - The landing page should present all demos in one coherent portfolio experience.
-- `demos.html` is the central demos directory. Stay a little, IF Claims Copilot, Stellar AI Glossary, and AI Agent Campus have verified live links; Writer MVP and Dora the GEO Explorer remain visible with a graceful domain-pending state until stable public front-end hostnames exist.
+- `demos.html` is the central demos directory. Stay a little, IF Claims Copilot, Writer MVP, Stellar AI Glossary, and AI Agent Campus have verified live links; Dora the GEO Explorer remains visible with a graceful domain-pending state until a stable public front-end hostname exists.
 - Each demo should retain a clear identity, purpose, and direct path to exploration.
 - Demo claims and availability must be grounded in the corresponding source project.
 - `index.html` defaults to the minimalist presentation and provides a fixed Minimal/8-bit switch that persists the visitor’s choice in local storage. Minimal mode reinterprets the same scroll story with Manrope typography, cool-gray neumorphic surfaces, rounded controls, soft circular particles, and restrained blue, coral, and green accents. The page opens with one large “AI” above “can feel overwhelming sometimes” inside a particle field. The about section now overlaps 66vh into the intro on desktop and 48vh on narrower screens so “Hi, my name is David” arrives well before the intro finishes; “Scroll to simplify” has no competing blink animation and fades out before that arrival so it cannot ghost behind the about copy. A fixed grid drifts at 12% of foreground scroll speed, followed by Demos, Articles, and Tools placeholder cards.
@@ -78,3 +78,8 @@ This file is the durable working memory for the David Demos landing-page project
 - `demos.html` links to `https://campus.daviddemos.com` as AI Agent Campus, an interactive Swedish-language 3D concept showing personal AI agents collaborating across campus roles while people approve the next step.
 - The demo is presented as a Stellar Capacity × Karolinska Institutet concept and clearly labels its fictional people, agents, and conversations on the destination page.
 - Published through `npm run publish:production`; the public directory and destination both returned HTTP 200, and the live directory contained the new card, link, count, and availability copy.
+
+## Writer MVP listing
+
+- `demos.html` links to `https://writer.daviddemos.com` (card 03) and states an access code is required. Never publish the access code. The Writer MVP repo owns the gate, tunnel `writer-mvp`, and hosting notes.
+- Published through `npm run publish:production` on 2026-09-27; the live directory contains the new link.
