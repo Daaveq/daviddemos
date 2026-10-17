@@ -6,7 +6,7 @@ This file is the durable working memory for the David Demos landing-page project
 
 - Project name: David Demos.
 - Purpose: a polished landing page and portfolio hub for all demos built in this workspace.
-- Current state: the root landing page offers a persistent two-mode presentation and links to a responsive demos directory containing six prototype cards; both Minimal and 8-bit presentations share the visitor's saved preference.
+- Current state: the root landing page offers a persistent two-mode presentation and links to a responsive demos directory containing seven prototype cards; both Minimal and 8-bit presentations share the visitor's saved preference.
 - Repository path: `/home/david/David-Demos`.
 - Stack: dependency-free static HTML, CSS, and JavaScript; local serving uses Python's built-in HTTP server through npm scripts.
 - GitHub repository: `https://github.com/Daaveq/daviddemos`, configured locally as `origin`; SSH origin is configured; use scoped non-main task branches for commits and pushes.
@@ -16,7 +16,7 @@ This file is the durable working memory for the David Demos landing-page project
 ## Product Direction
 
 - The landing page should present all demos in one coherent portfolio experience.
-- `demos.html` is the central demos directory. Stay a little, IF Claims Copilot, Writer MVP, Stellar AI Glossary, and AI Agent Campus have verified live links; Dora the GEO Explorer remains visible with a graceful domain-pending state until a stable public front-end hostname exists.
+- `demos.html` is the central demos directory. Stay a little, IF Claims Copilot, Writer MVP, Stellar AI Glossary, AI Agent Campus, and Capacity have verified live links; Dora the GEO Explorer remains visible with a graceful domain-pending state until a stable public front-end hostname exists.
 - Each demo should retain a clear identity, purpose, and direct path to exploration.
 - Demo claims and availability must be grounded in the corresponding source project.
 - `index.html` defaults to the minimalist presentation and provides a fixed Minimal/8-bit switch that persists the visitor’s choice in local storage. Minimal mode reinterprets the same scroll story with Manrope typography, cool-gray neumorphic surfaces, rounded controls, soft circular particles, and restrained blue, coral, and green accents. The page opens with one large “AI” above “can feel overwhelming sometimes” inside a particle field. The about section now overlaps 66vh into the intro on desktop and 48vh on narrower screens so “Hi, my name is David” arrives well before the intro finishes; “Scroll to simplify” has no competing blink animation and fades out before that arrival so it cannot ghost behind the about copy. A fixed grid drifts at 12% of foreground scroll speed, followed by Demos, Articles, and Tools placeholder cards.
@@ -83,3 +83,10 @@ This file is the durable working memory for the David Demos landing-page project
 
 - `demos.html` links to `https://writer.daviddemos.com` (card 03) and states an access code is required. Never publish the access code. The Writer MVP repo owns the gate, tunnel `writer-mvp`, and hosting notes.
 - Published through `npm run publish:production` on 2026-09-27; the live directory contains the new link.
+
+## Capacity listing
+
+- User authorized adding Capacity (their time tracker, source `/home/david/Time - Resource Management`, private repo Daaveq/time-tracker) on 2026-10-17. `demos.html` card 07 links to `https://capacity.daviddemos.com` and states a password is required. Never publish the password or the MCP token. The Capacity repo owns the app, tunnel `capacity`, and hosting notes.
+- Published through `npm run publish:production` on 2026-10-17 from `feat/capacity-link`; the live directory contains the card, the 07/07 numbering and the six-live count.
+- Production is ahead of `main`: Campus, Writer MVP and Capacity were published from unmerged branches (`feat/capacity-link` contains all of them). Merging to `main` needs explicit user authorization.
+- Known issue (pre-existing, all cards): in 8-bit mode `.card-status` uses `background: currentColor` with `color: var(--ink)`, so the Live badge text is invisible.
