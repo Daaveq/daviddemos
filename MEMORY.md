@@ -90,3 +90,11 @@ This file is the durable working memory for the David Demos landing-page project
 - Published through `npm run publish:production` on 2026-10-17 from `feat/capacity-link`; the live directory contains the card, the 07/07 numbering and the six-live count.
 - Production is ahead of `main`: Campus, Writer MVP and Capacity were published from unmerged branches (`feat/capacity-link` contains all of them). Merging to `main` needs explicit user authorization.
 - Known issue (pre-existing, all cards): in 8-bit mode `.card-status` uses `background: currentColor` with `color: var(--ink)`, so the Live badge text is invisible.
+
+## Novo Nordisk application film
+
+- `/novo/` is a git submodule of the private repo `Daaveq/novo-application` (local clone also at `/home/david/novo-application`). It is David's interactive application for AI Upskilling & Adoption Lead at Novo Nordisk (deadline 23 November 2026), modelled on a reference video of a film-style job application: painted opening, narrator orb, story, kinetic type, product-style mock, end card.
+- It is a job application, not a portfolio demo: keep it out of `demos.html`, keep `noindex`, and never run `npm run publish:novo` (copies it to `.production/novo/`) without David's explicit go-ahead. As of 2026-11-17 it is not published.
+- Narration is generated at build time by `npm run voice` in the submodule and needs `OPENAI_API_KEY` in its git-ignored `.env`. As of 2026-11-17 no audio has been generated; the film runs on timed captions until it is.
+- Content rules: no Novo Nordisk logo or brand assets, tool tiles are letter glyphs rather than vendor logos, the story and session examples are labelled illustrative, and nothing claims experience David has not confirmed.
+- Headless Chromium on this host lacks system libraries (libatk and others); browser checks need them supplied through `LD_LIBRARY_PATH` or installed.

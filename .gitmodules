@@ -1,0 +1,3 @@
+[submodule "novo"]
+	path = novo
+	url = git@github.com:Daaveq/novo-application.git
