@@ -1,1 +1,40 @@
-{ "clips": {} }
+{
+  "clips": {
+    "a1": {
+      "file": "a1.mp3",
+      "hash": "2254b72045b2d7f8"
+    },
+    "a2": {
+      "file": "a2.mp3",
+      "hash": "2c3e7b0f7584c2a6"
+    },
+    "a3": {
+      "file": "a3.mp3",
+      "hash": "9ff3f7ed1aa04f86"
+    },
+    "b1": {
+      "file": "b1.mp3",
+      "hash": "2ea0070ba92b55dd"
+    },
+    "b2": {
+      "file": "b2.mp3",
+      "hash": "8a0d95170589836c"
+    },
+    "b3": {
+      "file": "b3.mp3",
+      "hash": "4cdfbd7f9639246f"
+    },
+    "b4": {
+      "file": "b4.mp3",
+      "hash": "dabde9db0cb7cdcb"
+    },
+    "b5": {
+      "file": "b5.mp3",
+      "hash": "8c2090e221cc1496"
+    },
+    "c1": {
+      "file": "c1.mp3",
+      "hash": "de15f21fb36594e8"
+    }
+  }
+}
