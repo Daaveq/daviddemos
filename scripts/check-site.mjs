@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import vm from "node:vm";
 
-const pages = ["index.html", "demos.html", "ai-compass.html"];
+const pages = ["index.html", "demos.html", "ai-compass.html", "work/index.html"];
 
 for (const page of pages) {
   const html = readFileSync(page, "utf8");

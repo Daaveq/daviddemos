@@ -8,6 +8,8 @@
     "check": "node scripts/check-site.mjs && npm --prefix applications/novo run -s check",
     "publish:production": "bash scripts/publish-production.sh",
     "publish:novo": "bash scripts/publish-novo.sh",
-    "voice:novo": "npm --prefix applications/novo run voice"
+    "voice:novo": "npm --prefix applications/novo run voice",
+    "voice:work": "node work/scripts/generate-voice.mjs",
+    "publish:work": "bash scripts/publish-work.sh"
   }
 }

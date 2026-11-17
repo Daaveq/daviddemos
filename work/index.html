@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Short animated films about the tools David has built: what each one is for and how it works.">
+  <title>The work I have done — David</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="work.css">
+</head>
+<body>
+  <a class="skip-link" href="#films">Skip to the films</a>
+
+  <div class="page">
+    <nav class="topbar" aria-label="Primary navigation">
+      <a class="back-link" href="../index.html">← David / Home</a>
+      <a class="back-link" href="../demos.html">Open the demos →</a>
+    </nav>
+
+    <header class="hero">
+      <p class="kicker">Short films · sound on</p>
+      <h1>The work I have <span>done.</span></h1>
+      <p class="lede">Every tool here started as a real annoyance. Each film takes about twenty seconds and shows what the tool is for, using its own interface.</p>
+      <button class="play-all" id="playAll" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        Play them all
+      </button>
+    </header>
+
+    <main class="films" id="films" aria-label="Films"></main>
+
+    <p class="footnote">The interfaces in these films are simplified recreations with made-up sample content. Narration is AI-generated.</p>
+  </div>
+
+  <div class="player" id="player" role="dialog" aria-modal="true" aria-label="Film player" hidden>
+    <div class="player-bar">
+      <span class="player-title" id="playerTitle"></span>
+      <button type="button" id="mute" aria-label="Mute sound" aria-pressed="false">
+        <svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="wave" d="M16.5 8.5a5 5 0 0 1 0 7"/><path class="cross" d="M16 9l5 6 M21 9l-5 6"/></svg>
+      </button>
+      <button type="button" id="close" aria-label="Close player">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12 M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="film" id="film">
+      <div class="stage" id="stage"></div>
+      <svg class="cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6.5 1.6L9.4 19z" fill="#111" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      <p class="caption" id="caption" aria-live="polite"></p>
+      <div class="endcard" id="endcard" hidden>
+        <p class="end-kicker" id="endKicker"></p>
+        <h2 id="endName"></h2>
+        <p class="end-sum" id="endSum"></p>
+        <div class="end-actions">
+          <a class="btn btn-primary" id="endLink" target="_blank" rel="noopener"></a>
+          <button class="btn" id="endNext" type="button"></button>
+          <button class="btn btn-quiet" id="endReplay" type="button">Watch again</button>
+        </div>
+      </div>
+    </div>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+{
+  "clips": {
+    "stay-a": {
+      "file": "stay-a.mp3",
+      "hash": "983b730df41dfe74"
+    },
+    "stay-b": {
+      "file": "stay-b.mp3",
+      "hash": "892c5f19193eebef"
+    },
+    "stay-c": {
+      "file": "stay-c.mp3",
+      "hash": "155251a036558b32"
+    },
+    "claims-a": {
+      "file": "claims-a.mp3",
+      "hash": "e736d32ade70ce67"
+    },
+    "claims-b": {
+      "file": "claims-b.mp3",
+      "hash": "53c030e0d1d236a4"
+    },
+    "claims-c": {
+      "file": "claims-c.mp3",
+      "hash": "f81e680607d9f046"
+    },
+    "storia-a": {
+      "file": "storia-a.mp3",
+      "hash": "728392bcf5b024af"
+    },
+    "storia-b": {
+      "file": "storia-b.mp3",
+      "hash": "56d29107338cbd54"
+    },
+    "storia-c": {
+      "file": "storia-c.mp3",
+      "hash": "0bcba41227408c9d"
+    },
+    "dora-a": {
+      "file": "dora-a.mp3",
+      "hash": "3c90f46537c5e22d"
+    },
+    "dora-b": {
+      "file": "dora-b.mp3",
+      "hash": "2d133c14bca6b4d7"
+    },
+    "dora-c": {
+      "file": "dora-c.mp3",
+      "hash": "04930ba76eaaaa2a"
+    },
+    "glossary-a": {
+      "file": "glossary-a.mp3",
+      "hash": "7ea69da329d826b0"
+    },
+    "glossary-b": {
+      "file": "glossary-b.mp3",
+      "hash": "11324f6eb99fc80d"
+    },
+    "glossary-c": {
+      "file": "glossary-c.mp3",
+      "hash": "5661cf40a874d809"
+    },
+    "campus-a": {
+      "file": "campus-a.mp3",
+      "hash": "b27038a155f6e9a1"
+    },
+    "campus-b": {
+      "file": "campus-b.mp3",
+      "hash": "9efb702372a93937"
+    },
+    "campus-c": {
+      "file": "campus-c.mp3",
+      "hash": "36358e517adc24db"
+    },
+    "capacity-a": {
+      "file": "capacity-a.mp3",
+      "hash": "48a4609ebb55d821"
+    },
+    "capacity-b": {
+      "file": "capacity-b.mp3",
+      "hash": "45a95f316a755a42"
+    },
+    "capacity-c": {
+      "file": "capacity-c.mp3",
+      "hash": "bfe30973aae5d4a0"
+    },
+    "budget-a": {
+      "file": "budget-a.mp3",
+      "hash": "78bd0677927d7105"
+    },
+    "budget-b": {
+      "file": "budget-b.mp3",
+      "hash": "78e274592406580e"
+    },
+    "budget-c": {
+      "file": "budget-c.mp3",
+      "hash": "e62f8c0f22eba29a"
+    },
+    "newslens-a": {
+      "file": "newslens-a.mp3",
+      "hash": "3647262483dfb768"
+    },
+    "newslens-b": {
+      "file": "newslens-b.mp3",
+      "hash": "5f23f5c3a06945a2"
+    },
+    "newslens-c": {
+      "file": "newslens-c.mp3",
+      "hash": "45b0e36eed9ba510"
+    },
+    "travel-a": {
+      "file": "travel-a.mp3",
+      "hash": "319ff021c8993629"
+    },
+    "travel-b": {
+      "file": "travel-b.mp3",
+      "hash": "ebd10d71199276e7"
+    },
+    "travel-c": {
+      "file": "travel-c.mp3",
+      "hash": "1a39617ffe41a400"
+    },
+    "proposals-a": {
+      "file": "proposals-a.mp3",
+      "hash": "826c0850885235ce"
+    },
+    "proposals-b": {
+      "file": "proposals-b.mp3",
+      "hash": "a4a65e12d6253bbb"
+    },
+    "proposals-c": {
+      "file": "proposals-c.mp3",
+      "hash": "f860f10552490f7b"
+    },
+    "memory-a": {
+      "file": "memory-a.mp3",
+      "hash": "5d0ace2bba728b07"
+    },
+    "memory-b": {
+      "file": "memory-b.mp3",
+      "hash": "a95c9c32df929b3d"
+    },
+    "memory-c": {
+      "file": "memory-c.mp3",
+      "hash": "47f08d93e885e55f"
+    }
+  }
+}
