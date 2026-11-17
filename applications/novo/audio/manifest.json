@@ -2,39 +2,67 @@
   "clips": {
     "a1": {
       "file": "a1.mp3",
-      "hash": "2254b72045b2d7f8"
+      "hash": "c6dd96140c188108"
     },
     "a2": {
       "file": "a2.mp3",
-      "hash": "2c3e7b0f7584c2a6"
+      "hash": "44f41983e92ecf0c"
     },
     "a3": {
       "file": "a3.mp3",
-      "hash": "9ff3f7ed1aa04f86"
+      "hash": "d9ae24169bb9ba46"
     },
     "b1": {
       "file": "b1.mp3",
-      "hash": "2ea0070ba92b55dd"
+      "hash": "63d8a93d2a5c23b4"
     },
     "b2": {
       "file": "b2.mp3",
-      "hash": "8a0d95170589836c"
+      "hash": "ecdfd3850aca6795"
     },
     "b3": {
       "file": "b3.mp3",
-      "hash": "4cdfbd7f9639246f"
+      "hash": "12bd2a39dff6e175"
     },
     "b4": {
       "file": "b4.mp3",
-      "hash": "dabde9db0cb7cdcb"
+      "hash": "6b3b375c89ce44ef"
     },
     "b5": {
       "file": "b5.mp3",
-      "hash": "8c2090e221cc1496"
+      "hash": "6f7d6eb7eb581378"
     },
     "c1": {
       "file": "c1.mp3",
-      "hash": "de15f21fb36594e8"
+      "hash": "85a8bdb5cf4d9e87"
+    },
+    "d1": {
+      "file": "d1.mp3",
+      "hash": "8426646d0c373c22"
+    },
+    "e1": {
+      "file": "e1.mp3",
+      "hash": "e9dba74d9c4e08a1"
+    },
+    "f1": {
+      "file": "f1.mp3",
+      "hash": "533b9598108c47f8"
+    },
+    "f2": {
+      "file": "f2.mp3",
+      "hash": "e00443bf2ea9a725"
+    },
+    "f3": {
+      "file": "f3.mp3",
+      "hash": "4711ec7138a379b6"
+    },
+    "g1": {
+      "file": "g1.mp3",
+      "hash": "1f1398d00260f5aa"
+    },
+    "h1": {
+      "file": "h1.mp3",
+      "hash": "3d8aa0754ba5cfc5"
     }
   }
 }

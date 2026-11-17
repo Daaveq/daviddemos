@@ -103,7 +103,7 @@ h1, h2, p { margin: 0; }
 .roll { display: inline-block; }
 .roll b, .swap-line { display: inline-block; font-weight: inherit; will-change: transform, opacity, filter; }
 .scene-note {
-  position: absolute; bottom: 30px; left: 0; right: 0; text-align: center;
+  position: absolute; bottom: 26px; left: 0; right: 0; text-align: center;
   color: var(--ink-3); font: 500 10px var(--mono); letter-spacing: .16em; text-transform: uppercase;
 }
 
@@ -131,8 +131,11 @@ h1, h2, p { margin: 0; }
 @keyframes blob { 50% { border-radius: 54% 46% 47% 53% / 46% 54% 48% 52%; } }
 
 .caption {
-  position: absolute; left: 8%; right: 8%; bottom: 70px; z-index: 6; min-height: 1.4em;
-  text-align: center; color: var(--ink-2); font-size: 21px; font-weight: 500; letter-spacing: -.012em; line-height: 1.4;
+  position: absolute; left: 0; right: 0; bottom: 64px; z-index: 6; width: fit-content; max-width: 86%; margin-inline: auto;
+  padding: 9px 18px; border-radius: 14px; background: rgba(255, 255, 255, .78);
+  box-shadow: 0 10px 24px -16px rgba(11, 18, 32, .45), 0 0 0 1px rgba(11, 18, 32, .05);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  text-align: center; color: var(--ink-2); font-size: 20px; font-weight: 500; letter-spacing: -.012em; line-height: 1.4;
   transition: opacity .35s;
 }
 .caption span { opacity: .22; transition: opacity .22s; }

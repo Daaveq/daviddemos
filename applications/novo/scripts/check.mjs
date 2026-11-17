@@ -8,6 +8,7 @@ if (!/^<!doctype html>/i.test(html.trimStart())) throw new Error("index.html: mi
 const refs = [...html.matchAll(/(?:src|href)=["']([^"'#][^"']*)["']/g)].map((m) => m[1]).filter((r) => !/^(https?:|data:|mailto:)/.test(r));
 for (const ref of refs) if (!existsSync(ref.split(/[?#]/)[0])) throw new Error(`index.html: missing ${ref}`);
 await import("../orb.js");
+await import("../music.js");
 const ids = new Set(LINES.map((line) => line.id));
 if (ids.size !== LINES.length) throw new Error("narration.js: duplicate ids");
 const manifest = JSON.parse(readFileSync("audio/manifest.json", "utf8"));

@@ -1,11 +1,15 @@
 import { LINES } from "./narration.js";
 import { createOrb } from "./orb.js";
+import { createMusic } from "./music.js";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const root = document.documentElement;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const EASE = "cubic-bezier(.22, 1, .36, 1)";
+// The publish script stamps a ?v= onto this module's URL; reuse it to get past CDN caches.
+const VERSION = new URL(import.meta.url).search;
+const TEMPO = 0.7; // Scales every scripted pause and animation. Lower is faster.
 
 const intro = $("#intro");
 const world = $("#world");
@@ -41,17 +45,27 @@ if (ac) {
   analyser.fftSize = 1024;
   analyser.connect(master);
 }
+const music = ac ? createMusic(ac, master) : null;
+// Which layers of the score play in each chapter: 0 pad, 1 + arpeggio, 2 + rhythm.
+const SCORE = [0, 1, 1, 2, 2, 2, 2, 2, 1];
 
 const voiceReady = (async () => {
   if (!ac) return;
   try {
-    const manifest = await (await fetch("audio/manifest.json", { cache: "no-cache" })).json();
-    await Promise.all(
-      Object.entries(manifest.clips || {}).map(async ([id, clip]) => {
-        const data = await (await fetch(`audio/${clip.file}`)).arrayBuffer();
-        buffers[id] = await ac.decodeAudioData(data);
-      }),
-    );
+    const manifest = await (await fetch(`audio/manifest.json${VERSION}`, { cache: "no-cache" })).json();
+    const jobs = Object.entries(manifest.clips || {}).map(async ([id, clip]) => {
+      const data = await (await fetch(`audio/${clip.file}?v=${clip.hash}`)).arrayBuffer();
+      buffers[id] = await ac.decodeAudioData(data);
+    });
+    if (manifest.music) {
+      jobs.push(
+        (async () => {
+          const data = await (await fetch(`audio/${manifest.music}`)).arrayBuffer();
+          music.useTrack(await ac.decodeAudioData(data));
+        })(),
+      );
+    }
+    await Promise.all(jobs);
   } catch {
     // No generated voice yet: the film runs on timed captions instead.
   }
@@ -123,7 +137,7 @@ function makeCtx(mine) {
   const ctx = {
     alive,
     async wait(ms) {
-      await sleep(ms);
+      await sleep(ms * TEMPO);
       guard();
     },
     async until(time) {
@@ -133,7 +147,7 @@ function makeCtx(mine) {
     async anim(el, keyframes, options = {}) {
       guard();
       if (!el) return;
-      const animation = el.animate(keyframes, { duration: 600, easing: EASE, fill: "both", ...options });
+      const animation = el.animate(keyframes, { easing: EASE, fill: "both", ...options, duration: (options.duration ?? 600) * TEMPO });
       if (reduced) animation.finish();
       await animation.finished.catch(() => {});
       guard();
@@ -144,7 +158,7 @@ function makeCtx(mine) {
         await ctx.wait(perChar);
       }
     },
-    async say(id, gap = 280) {
+    async say(id, gap = 160) {
       const words = LINES.find((line) => line.id === id).text.split(" ");
       caption.innerHTML = words.map((word) => `<span>${word}</span>`).join(" ");
       const spans = [...caption.children];
@@ -164,6 +178,7 @@ function makeCtx(mine) {
       } else {
         speaking = "timed";
       }
+      music?.duck(true);
 
       const weights = words.map((word) => word.length + (/[.,]$/.test(word) ? 5 : 2));
       const total = weights.reduce((sum, weight) => sum + weight, 0);
@@ -176,7 +191,9 @@ function makeCtx(mine) {
       }
       await ctx.until(started + duration);
       speaking = null;
-      await ctx.wait(gap);
+      music?.duck(false);
+      await sleep(gap);
+      guard();
     },
   };
   return ctx;
@@ -191,6 +208,7 @@ function halt() {
   }
   currentSource = null;
   speaking = null;
+  music?.duck(false);
   caption.textContent = "";
 }
 
@@ -244,6 +262,13 @@ async function roll(ctx, el, text) {
   await ctx.anim(el, [{ opacity: 0, transform: "translateY(.45em)", filter: "blur(6px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }], { duration: 420 });
 }
 
+// Starts a narration line that runs alongside the scene's animation.
+function narrate(ctx, id) {
+  const voice = ctx.say(id, 0);
+  voice.catch(() => {});
+  return voice;
+}
+
 const popIn = [
   { opacity: 0, transform: "scale(.4)", filter: "blur(8px)" },
   { opacity: 1, transform: "scale(1)", filter: "blur(0)" },
@@ -276,9 +301,9 @@ const scenes = [
       enter("s-hello");
       orbState("on");
       await ctx.wait(900);
-      await ctx.say("a1", 380);
-      await ctx.say("a2", 420);
-      await ctx.say("a3", 300);
+      await ctx.say("a1", 220);
+      await ctx.say("a2", 240);
+      await ctx.say("a3", 160);
     },
   },
   {
@@ -360,6 +385,7 @@ const scenes = [
       setFlip(flips.prompts, "23", true);
       setFlip(flips.habits, "00", true);
       const widget = $(".widget", el);
+      const voice = narrate(ctx, "d1");
 
       await ctx.anim(widget, [{ opacity: 0, transform: "scale(.82) translateY(30px)" }, { opacity: 1, transform: "none" }], { duration: 800 });
       const cells = $$("b:not(.gap)", letters);
@@ -374,6 +400,7 @@ const scenes = [
       }
       await ctx.anim(flips.habits, [{ transform: "translateX(0)" }, { transform: "translateX(-5px)" }, { transform: "translateX(5px)" }, { transform: "translateX(0)" }], { duration: 300, easing: "ease-in-out", fill: "none" });
       await ctx.wait(700);
+      await voice;
 
       // Pull back: the tools drift past, the colleague's week shrinks to a dot.
       const floaters = $(".floaters", el);
@@ -402,6 +429,7 @@ const scenes = [
       orbState("off");
       const line = $(".type-line", el);
       const word = $(".roll b", el);
+      const voice = narrate(ctx, "e1");
       await ctx.anim(line, [{ opacity: 0, transform: "translateY(18px)", filter: "blur(8px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }], { duration: 600 });
       await ctx.wait(650);
       for (const next of ["keynote", "demo", "prompt list"]) {
@@ -423,6 +451,7 @@ const scenes = [
       $$(".tile", orbit).forEach((node, index) => node.animate(popIn, { duration: 700, delay: index * 60, easing: EASE, fill: "both" }));
       await ctx.anim(line, [{ opacity: 0, transform: "scale(.7)", filter: "blur(10px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }], { duration: 700 });
       await ctx.wait(1500);
+      await voice;
       await ctx.anim(el, [{ opacity: 1, transform: "none" }, { opacity: 0, transform: "scale(.5)", filter: "blur(8px)" }], { duration: 520, easing: "ease-in" });
     },
   },
@@ -440,6 +469,7 @@ const scenes = [
       const view = (transform, duration = 1100) => ctx.anim(app, [{ transform }], { duration, easing: "cubic-bezier(.65,0,.2,1)" });
 
       app.style.transform = "translate(-576px, 200px) scale(1.75)";
+      let voice = narrate(ctx, "f1");
       const requests = [
         { who: "Finance leadership team", initials: "FL", color: "#0f6c5c", time: "9:41", text: "Can we get a hands-on AI session before quarter close?", bump: ["unread", "lead"] },
         { who: "Global AI event · production", initials: "EV", color: "#6b4fd8", time: "9:42", text: "Re: follow-up — what happens after the broadcast ends?", bump: ["unread", "events"] },
@@ -471,6 +501,7 @@ const scenes = [
       $$(".badge", badges).forEach((badge, index) => badge.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: `translate(${40 + index * 14}px,-50px) scale(.4)` }], { duration: 500, delay: 300 + index * 40, fill: "forwards" }));
 
       // Pull back to the whole desk, then lean in to the conversation.
+      await voice;
       app.classList.add("shell");
       await view("translate(0px, 0px) scale(1)", 1200);
       await ctx.wait(250);
@@ -484,6 +515,7 @@ const scenes = [
         node.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 380, easing: EASE });
         return node;
       };
+      voice = narrate(ctx, "f2");
       const ask = bubble("bubble me", "");
       await ctx.type(ask, "Turn Finance’s request into a 45-minute hands-on session with approved tools.", 20);
       await ctx.wait(450);
@@ -521,6 +553,7 @@ const scenes = [
       working.remove();
       bubble("bubble", "<b>45 minutes in three parts</b>, with success measures and a feedback form. Examples use approved, non-sensitive data. Your reply to Finance is drafted.");
 
+      await voice;
       body.innerHTML = `
         <div class="thread-head"><span class="av">FL</span>Finance leadership team</div>
         <div class="thread-msg">Can we get a hands-on AI session before quarter close?</div>
@@ -532,6 +565,7 @@ const scenes = [
         </div>`;
       await view("translate(0px, 0px) scale(1)", 1000);
       await ctx.wait(500);
+      voice = narrate(ctx, "f3");
       await view(narrow ? "translate(-420px, -200px) scale(1.45)" : "translate(-640px, -350px) scale(1.85)", 1100);
 
       const send = $(".send", el);
@@ -553,6 +587,7 @@ const scenes = [
       send.classList.replace("sending", "sent");
       send.textContent = "Sent ✓";
       await ctx.wait(900);
+      await voice;
       await ctx.anim(el, [{ opacity: 1, filter: "blur(0)" }, { opacity: 0, filter: "blur(10px)" }], { duration: 450, easing: "ease-in" });
     },
   },
@@ -579,6 +614,7 @@ const scenes = [
           </div>`;
       };
       render(audiences[0]);
+      const voice = narrate(ctx, "g1");
       await Promise.all([
         ctx.anim($(".headline", el), [{ opacity: 0, transform: "translateY(14px)" }, { opacity: 1, transform: "none" }], { duration: 500 }),
         ctx.anim(plan, [{ opacity: 0, transform: "translateY(60px) scale(.96)" }, { opacity: 1, transform: "none" }], { duration: 800 }),
@@ -592,6 +628,7 @@ const scenes = [
         await ctx.anim(plan, [{ opacity: 0, transform: "translateX(140px)", filter: "blur(12px)" }, { opacity: 1, transform: "none", filter: "blur(0)" }], { duration: 480 });
         await ctx.wait(1250);
       }
+      await voice;
       await ctx.anim(el, [{ opacity: 1 }, { opacity: 0 }], { duration: 380 });
     },
   },
@@ -615,6 +652,7 @@ const scenes = [
       const slots = $$(".slot", dock);
       const counter = $("[data-flip]", el);
       setFlip(counter, "000", true);
+      const voice = narrate(ctx, "h1");
       await Promise.all([
         ctx.anim($(".headline", el), [{ opacity: 0, transform: "translateY(14px)" }, { opacity: 1, transform: "none" }], { duration: 500 }),
         ctx.anim(dock, [{ opacity: 0, translate: "0 24px" }, { opacity: 1, translate: "0 0" }], { duration: 600 }),
@@ -638,6 +676,7 @@ const scenes = [
       }
       slots.forEach((other) => other.classList.remove("hi"));
       await ctx.wait(900);
+      await voice;
       await ctx.anim(el, [{ opacity: 1 }, { opacity: 0 }], { duration: 380 });
     },
   },
@@ -654,8 +693,7 @@ const scenes = [
       const icon = $("#appIcon", el);
       const end = $("#endcard", el);
 
-      const voice = ctx.say("c1", 200);
-      voice.catch(() => {});
+      const voice = narrate(ctx, "c1");
       await ctx.anim(headline, [{ opacity: 0, transform: "translateY(14px)" }, { opacity: 1, transform: "none" }], { duration: 500 });
       for (const node of tiles) {
         sfx("tick");
@@ -703,11 +741,14 @@ async function play(from) {
   halt();
   const mine = token;
   const ctx = makeCtx(mine);
+  if (ac?.state === "running") music?.start();
   try {
     for (let index = Math.max(0, Math.min(from, scenes.length - 1)); index < scenes.length; index += 1) {
       mark(index);
+      music?.setLevel(SCORE[index]);
       await scenes[index].run(ctx);
     }
+    music?.fadeOut(8);
   } catch (error) {
     if (!(error instanceof Cancelled)) throw error;
   }
@@ -736,7 +777,7 @@ let opened = false;
 async function open() {
   if (opened) return;
   opened = true;
-  ac?.resume().catch(() => {});
+  ac?.resume().then(() => music?.start()).catch(() => {});
   intro.classList.add("touch");
   const spark = $("#spark");
   const ring = $("#portalRing");
