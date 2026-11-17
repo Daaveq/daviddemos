@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="David Quijano's application for AI Upskilling &amp; Adoption Lead, told as a one-minute film.">
+  <title>David × Novo Nordisk — an application</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Shared SVG definitions -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <linearGradient id="markGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3B97DE"/><stop offset=".55" stop-color="#005AD2"/><stop offset="1" stop-color="#001965"/>
+    </linearGradient>
+    <linearGradient id="markGradBright" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8fd0ff"/><stop offset=".5" stop-color="#3B97DE"/><stop offset="1" stop-color="#2ad1b5"/>
+    </linearGradient>
+    <filter id="wobble" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14"/>
+    </filter>
+    <symbol id="mark" viewBox="0 0 72 72">
+      <rect x="8" y="8" width="38" height="38" rx="11" fill="none" stroke-width="4.5"/>
+      <rect x="26" y="26" width="38" height="38" rx="11" fill="none" stroke-width="4.5"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Opening painting -->
+<div class="intro" id="intro">
+  <svg class="painting" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#4f6f80"/><stop offset=".38" stop-color="#8f9a94"/>
+        <stop offset=".58" stop-color="#d9a273"/><stop offset=".7" stop-color="#e9804b"/><stop offset="1" stop-color="#b8603f"/>
+      </linearGradient>
+      <radialGradient id="sun" cx=".5" cy=".5" r=".5">
+        <stop offset="0" stop-color="#ffe2b0" stop-opacity=".95"/><stop offset=".4" stop-color="#ffb877" stop-opacity=".45"/><stop offset="1" stop-color="#ffb877" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="haze" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f0a070" stop-opacity=".5"/><stop offset="1" stop-color="#f0a070" stop-opacity="0"/>
+      </linearGradient>
+      <radialGradient id="glowWarm"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".9"/><stop offset=".35" stop-color="#ffb877" stop-opacity=".35"/><stop offset="1" stop-color="#ffb877" stop-opacity="0"/></radialGradient>
+      <radialGradient id="glowCool"><stop offset="0" stop-color="#bfe0ff" stop-opacity=".95"/><stop offset=".35" stop-color="#5fa8ff" stop-opacity=".4"/><stop offset="1" stop-color="#5fa8ff" stop-opacity="0"/></radialGradient>
+      <filter id="brush" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="3" seed="7" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="26"/>
+      </filter>
+      <filter id="canvasGrain">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3"/>
+        <feColorMatrix values="0 0 0 0 .5  0 0 0 0 .42  0 0 0 0 .3  0 0 0 .55 0"/>
+      </filter>
+    </defs>
+
+    <rect width="1600" height="900" fill="url(#sky)"/>
+    <ellipse cx="800" cy="600" rx="620" ry="250" fill="url(#sun)"/>
+
+    <g filter="url(#brush)">
+      <path d="M-40,640 C180,560 320,600 480,575 C640,548 760,600 900,580 C1080,552 1260,600 1640,560 L1640,900 L-40,900 Z" fill="#8a7a8c" opacity=".75"/>
+      <path d="M-40,690 C140,640 300,668 470,650 C640,632 800,684 980,660 C1180,634 1380,676 1640,640 L1640,900 L-40,900 Z" fill="#5e6a66"/>
+      <rect x="-40" y="640" width="1680" height="90" fill="url(#haze)"/>
+      <path d="M-40,760 C200,700 380,742 560,728 C760,712 900,770 1100,744 C1300,718 1460,752 1640,726 L1640,900 L-40,900 Z" fill="#35493b"/>
+
+      <!-- Umbrella pines, left -->
+      <g fill="#1d3024">
+        <path d="M250,860 C258,700 268,520 300,330 L326,330 C304,520 300,700 300,860 Z" fill="#3a2a22"/>
+        <ellipse cx="300" cy="250" rx="250" ry="92"/><ellipse cx="170" cy="210" rx="150" ry="70"/><ellipse cx="420" cy="200" rx="170" ry="72"/>
+        <ellipse cx="300" cy="160" rx="170" ry="62" fill="#2b4632"/><ellipse cx="150" cy="190" rx="90" ry="34" fill="#35553c"/><ellipse cx="430" cy="170" rx="100" ry="32" fill="#35553c"/>
+        <path d="M30,900 C40,720 52,560 70,430 L88,430 C76,560 74,720 78,900 Z" fill="#33251e"/>
+        <ellipse cx="60" cy="380" rx="150" ry="74"/><ellipse cx="40" cy="340" rx="110" ry="40" fill="#2b4632"/>
+      </g>
+
+      <!-- Cypresses and pine, right -->
+      <g fill="#182a22">
+        <ellipse cx="1340" cy="520" rx="34" ry="250"/><ellipse cx="1420" cy="600" rx="28" ry="190"/><ellipse cx="1270" cy="640" rx="24" ry="150"/>
+        <path d="M1500,900 C1506,700 1512,500 1530,300 L1552,300 C1540,500 1540,700 1546,900 Z" fill="#33251e"/>
+        <ellipse cx="1530" cy="230" rx="210" ry="90"/><ellipse cx="1480" cy="180" rx="130" ry="46" fill="#2b4632"/>
+        <ellipse cx="1335" cy="470" rx="14" ry="170" fill="#24402f"/>
+      </g>
+
+      <!-- Foreground shrubs -->
+      <g fill="#22382a">
+        <ellipse cx="120" cy="850" rx="220" ry="90"/><ellipse cx="420" cy="890" rx="240" ry="70"/><ellipse cx="1180" cy="880" rx="260" ry="80"/><ellipse cx="1500" cy="840" rx="230" ry="100"/>
+        <ellipse cx="140" cy="800" rx="120" ry="40" fill="#3f5f43"/><ellipse cx="1460" cy="790" rx="130" ry="42" fill="#4a6a49"/><ellipse cx="1150" cy="840" rx="110" ry="30" fill="#3f5f43"/>
+      </g>
+    </g>
+
+    <!-- Two lights reaching for each other: people and tools -->
+    <g id="lightL" class="light light-left">
+      <circle cx="650" cy="446" r="70" fill="url(#glowWarm)"/>
+      <circle cx="650" cy="446" r="9" fill="#fff4dc"/>
+      <text x="650" y="520" text-anchor="middle">People</text>
+    </g>
+    <g id="lightR" class="light light-right">
+      <circle cx="950" cy="446" r="70" fill="url(#glowCool)"/>
+      <circle cx="950" cy="446" r="9" fill="#eaf5ff"/>
+      <text x="950" y="520" text-anchor="middle">AI tools</text>
+    </g>
+    <circle id="spark" cx="800" cy="446" r="10" fill="#fff6e6" opacity="0"/>
+
+    <rect width="1600" height="900" filter="url(#canvasGrain)" opacity=".5" style="mix-blend-mode:overlay"/>
+  </svg>
+
+  <div class="intro-vignette" aria-hidden="true"></div>
+  <p class="intro-tag">An application · Novo Nordisk · AI Upskilling &amp; Adoption Lead</p>
+  <button class="intro-start" id="start" type="button">
+    <span class="intro-start-dot" aria-hidden="true"></span>
+    Open the application
+    <small>55 seconds · sound on</small>
+  </button>
+</div>
+
+<div class="portal-ring" id="portalRing" aria-hidden="true"></div>
+
+<!-- The film -->
+<main class="world" id="world" aria-live="off">
+  <div class="film" id="film">
+
+    <canvas class="orb" id="orb" aria-hidden="true"></canvas>
+    <div class="orb-shadow" id="orbShadow" aria-hidden="true"></div>
+
+    <!-- 1 · Gate -->
+    <section class="scene" id="s-gate">
+      <svg class="gate-mark" viewBox="0 0 72 72" aria-hidden="true"><use href="#mark" stroke="url(#markGrad)" class="draw"/></svg>
+      <div class="gate-pill"><span class="gate-dots"></span><span class="gate-toggle"><i></i></span></div>
+    </section>
+
+    <!-- 2 · Hello (orb only) -->
+    <section class="scene" id="s-hello"></section>
+
+    <!-- 3 · Story -->
+    <section class="scene" id="s-story">
+      <div class="story-card">
+        <div class="story-seats"></div>
+        <div class="story-label"><b></b><span></span></div>
+      </div>
+      <div class="story-meta"><span class="story-left">Day 1</span><span>A story, not a statistic</span></div>
+    </section>
+
+    <!-- 4 · Widget -->
+    <section class="scene" id="s-widget">
+      <div class="floaters"></div>
+      <div class="widget">
+        <div class="w-head">
+          <span class="w-date">Week 6</span>
+          <div class="w-tiles"></div>
+          <strong>One colleague, after the rollout</strong>
+        </div>
+        <div class="w-counters">
+          <div><div class="flip" data-flip="days">08</div><span>days since training</span></div>
+          <div><div class="flip" data-flip="prompts">23</div><span>prompts this week</span></div>
+          <div><div class="flip" data-flip="habits">00</div><span>new habits</span></div>
+        </div>
+        <div class="w-letters" aria-label="Tried once"></div>
+      </div>
+    </section>
+
+    <!-- 5 · Kinetic type -->
+    <section class="scene" id="s-type">
+      <div class="orbit"></div>
+      <h2 class="type-line"><span class="t-a">A</span> <span class="roll"><b>licence</b></span> <span class="t-b">is not a habit</span></h2>
+    </section>
+
+    <!-- 6 · How a request becomes a session -->
+    <section class="scene" id="s-mock">
+      <div class="fit">
+        <div class="app" id="app">
+          <div class="app-chrome"><i></i><i></i><i></i><span>Session desk</span></div>
+          <aside class="app-rail">
+            <svg viewBox="0 0 24 24"><path d="M5 6h14v9H10l-4 4v-4H5z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M5 5h14v15H5z M5 10h14 M9 3v4 M15 3v4"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M4 7h6l2 2h8v10H4z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M5 20V10 M10 20V5 M15 20v-7 M20 20V8"/></svg>
+          </aside>
+          <div class="chat">
+            <div class="chat-log" id="chatLog"></div>
+            <div class="composer"><span>What does the team need?</span><em>Approved tools only</em></div>
+          </div>
+          <div class="requests" id="requests">
+            <header><b>Requests</b><span class="search">Search</span><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6 M20 4v4h-4"/></svg></header>
+            <nav><span class="on">Inbox</span><span>Unread <i data-count="unread">0</i></span><span>Leadership <i data-count="lead">0</i></span><span>Events <i data-count="events">0</i></span></nav>
+            <div class="req-body" id="reqBody"></div>
+          </div>
+        </div>
+        <div class="badges" id="badges"></div>
+        <svg class="cursor" id="cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8-6.5 1.6L9.4 19z" fill="#111" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      </div>
+      <p class="scene-note">Illustration · how a request becomes a session</p>
+    </section>
+
+    <!-- 7 · Audiences -->
+    <section class="scene" id="s-aud">
+      <h2 class="headline">One deck doesn’t fit <span class="roll"><b>Finance.</b></span></h2>
+      <div class="plan-wrap"><div class="plan" id="plan"></div></div>
+      <p class="scene-note">Example sessions</p>
+    </section>
+
+    <!-- 8 · Reusable assets -->
+    <section class="scene" id="s-assets">
+      <h2 class="headline"><span class="swap-line">Every session leaves something behind.</span></h2>
+      <div class="dock" id="dock"></div>
+      <div class="flip flip-lg" data-flip="assets">000</div>
+      <p class="flip-caption">reusable assets</p>
+    </section>
+
+    <!-- 9 · Finale -->
+    <section class="scene" id="s-finale">
+      <h2 class="headline"><span class="swap-line">You already have the tools.</span></h2>
+      <div class="tool-row" id="toolRow"></div>
+      <div class="app-icon" id="appIcon"><svg viewBox="0 0 72 72" aria-hidden="true"><use href="#mark" stroke="url(#markGradBright)"/></svg></div>
+      <div class="endcard" id="endcard">
+        <p class="end-kicker">Application · Novo Nordisk · Ballerup</p>
+        <h1>David Quijano</h1>
+        <p class="end-role">AI Upskilling &amp; Adoption Lead <span>12-month maternity cover</span></p>
+        <div class="end-actions">
+          <a class="btn btn-primary" href="https://daviddemos.com/demos.html" target="_blank" rel="noopener">See what I’ve built ↗</a>
+          <button class="btn" id="replay" type="button">Watch again</button>
+        </div>
+        <p class="end-fine">Made by David for this application. Not affiliated with or endorsed by Novo Nordisk. The story and session examples are illustrative.</p>
+      </div>
+    </section>
+
+    <p class="caption" id="caption" aria-live="polite"></p>
+  </div>
+
+  <div class="controls" id="controls">
+    <div class="dots" id="dots" role="tablist" aria-label="Chapters"></div>
+    <button type="button" id="prev" aria-label="Previous chapter"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button type="button" id="next" aria-label="Next chapter"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button type="button" id="mute" aria-label="Mute sound" aria-pressed="false">
+      <svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="wave" d="M16.5 8.5a5 5 0 0 1 0 7"/><path class="cross" d="M16 9l5 6 M21 9l-5 6"/></svg>
+    </button>
+  </div>
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

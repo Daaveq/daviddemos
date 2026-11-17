@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "python3 -m http.server 4173 --bind 127.0.0.1",
     "start": "python3 -m http.server 4173 --bind 127.0.0.1",
-    "check": "node scripts/check-site.mjs",
+    "check": "node scripts/check-site.mjs && npm --prefix applications/novo run -s check",
     "publish:production": "bash scripts/publish-production.sh",
-    "publish:novo": "bash scripts/publish-novo.sh"
+    "publish:novo": "bash scripts/publish-novo.sh",
+    "voice:novo": "npm --prefix applications/novo run voice"
   }
 }
