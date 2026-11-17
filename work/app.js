@@ -2,6 +2,10 @@ import { $, $$, createEngine, leave, rise } from "./kit.js";
 import { FILMS } from "./films.js";
 
 const root = document.documentElement;
+const params = new URLSearchParams(location.search);
+// Embedded on the application's end card: only the player shows, and closing hands back.
+const embed = params.has("embed") && window.parent !== window;
+root.classList.toggle("embed", embed);
 const player = $("#player");
 const film = $("#film");
 const stage = $("#stage");
@@ -104,6 +108,11 @@ function openPlayer(index, auto = false) {
 
 function closePlayer() {
   playAll = false;
+  if (embed) {
+    engine.dispose();
+    window.parent.postMessage({ type: "film-close" }, location.origin);
+    return;
+  }
   engine.stop(1.5);
   player.hidden = true;
   document.body.classList.remove("playing");
@@ -133,6 +142,7 @@ addEventListener("keydown", (event) => {
 });
 
 // Deep link: ?film=capacity opens that film (sound starts after the first click).
-const wanted = new URLSearchParams(location.search).get("film");
+if (params.has("muted")) $("#mute").click();
+const wanted = params.get("film");
 const found = FILMS.findIndex((item) => item.id === wanted);
 if (found >= 0) openPlayer(found);

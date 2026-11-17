@@ -46,6 +46,9 @@ if (ac) {
   analyser.connect(master);
 }
 const music = ac ? createMusic(ac, master) : null;
+// The work films open in a frame on the end card and play through this context,
+// which the visitor has already unlocked with their first click.
+window.filmAudio = ac;
 // Which layers of the score play in each chapter: 0 pad, 1 + arpeggio, 2 + rhythm.
 const SCORE = [0, 1, 1, 2, 2, 2, 2, 2, 1];
 
@@ -241,6 +244,23 @@ const TOOLS = [
   { key: "P", name: "PowerPoint", color: "#c43e1c" },
   { key: "O", name: "Outlook", color: "#0f6cbd" },
 ];
+// The films on /work/, shown as floating chips on the end card: id, name, colours,
+// then the chip centre on the wide canvas and on the tall one.
+const WORK = [
+  ["stay", "Stay a little", "#c4d2b0", "#efdaa1", 150, 110, 150, 905],
+  ["claims", "Claims Copilot", "#b51f35", "#5b1020", 1135, 135, 380, 925],
+  ["storia", "Storia", "#27272a", "#09090b", 240, 200, 610, 905],
+  ["dora", "Dora", "#3b82f6", "#0a0a0a", 1050, 225, 150, 980],
+  ["glossary", "AI Glossary", "#c87d4d", "#050505", 140, 290, 380, 1000],
+  ["campus", "AI Agent Campus", "#6639d8", "#08070d", 1140, 315, 610, 980],
+  ["capacity", "Capacity", "#6d5ce8", "#1f1f24", 235, 380, 150, 1055],
+  ["budget", "Budget", "#1d5c43", "#1baf7a", 1045, 405, 380, 1075],
+  ["newslens", "NewsLens", "#0997ff", "#0348b7", 145, 470, 610, 1055],
+  ["travel", "Travel Planner", "#60a5fa", "#0c0e14", 1135, 495, 150, 1130],
+  ["proposals", "Proposals", "#e48d27", "#4f2da8", 230, 560, 380, 1150],
+  ["memory", "The Body’s Memory", "#e12d84", "#7642da", 1050, 585, 610, 1130],
+];
+
 const tile = (tool, style = "") =>
   `<div class="tile" title="${tool.name}" style="--c:${tool.color};${tool.small ? "font-size:.62em;" : ""}${style}"><span>${tool.key}</span></div>`;
 
@@ -718,7 +738,15 @@ const scenes = [
       await ctx.anim(headline, [{ opacity: 1 }, { opacity: 0 }], { duration: 350 });
       await ctx.anim(icon, [{ top: "50%", scale: "1" }, { top: "25%", scale: ".6" }], { duration: 800 });
       end.classList.add("on");
+      const cloud = $("#doneCloud", el);
+      cloud.innerHTML = WORK.map(
+        ([id, name, a, b, x, y, px, py], index) =>
+          `<button class="done" type="button" data-film="${id}" aria-label="Watch the film about ${name}" style="--a:${a};--b:${b};--x:${x}px;--y:${y}px;--px:${px}px;--py:${py}px;--t:${5.2 + (index % 5) * 0.7}s;--d:${-index * 0.9}s"><span><i></i>${name}</span></button>`,
+      ).join("");
       await ctx.anim(end, [{ opacity: 0, transform: "translateY(18px)" }, { opacity: 1, transform: "none" }], { duration: 700 });
+      $$(".done", cloud).forEach((node, index) => node.animate(popIn, { duration: 620, delay: index * 70, easing: EASE, fill: "both" }));
+      await ctx.wait(200);
+      sfx("pop");
     },
   },
 ];
@@ -762,11 +790,44 @@ $("#mute").addEventListener("click", (event) => {
   event.currentTarget.setAttribute("aria-label", muted ? "Unmute sound" : "Mute sound");
   if (master) master.gain.value = muted ? 0 : 1;
 });
+/* ---------- Work films: a chip on the end card opens its film in place ---------- */
+const cinema = $("#cinema");
+let cinemaOpener = null;
+
+function openFilm(id) {
+  cinemaOpener = document.activeElement;
+  music?.fadeOut(1.2);
+  const frame = document.createElement("iframe");
+  frame.title = "Film";
+  frame.allow = "autoplay";
+  frame.src = `../../work/?film=${encodeURIComponent(id)}&embed=1${muted ? "&muted=1" : ""}`;
+  frame.addEventListener("load", () => frame.contentWindow?.focus());
+  cinema.replaceChildren(frame);
+  cinema.hidden = false;
+}
+
+function closeFilm() {
+  if (cinema.hidden) return;
+  cinema.hidden = true;
+  cinema.replaceChildren();
+  cinemaOpener?.focus?.();
+}
+
+addEventListener("message", (event) => {
+  if (event.origin === location.origin && event.data?.type === "film-close") closeFilm();
+});
+
 world.addEventListener("click", (event) => {
   if (event.target.closest("#replay")) play(0);
+  const chip = event.target.closest(".done");
+  if (chip) openFilm(chip.dataset.film);
 });
 addEventListener("keydown", (event) => {
   if (!world.classList.contains("open")) return;
+  if (!cinema.hidden) {
+    if (event.key === "Escape") closeFilm();
+    return;
+  }
   if (event.key === "ArrowRight") play(current + 1);
   if (event.key === "ArrowLeft") play(current - 1);
   if (event.key.toLowerCase() === "m") $("#mute").click();

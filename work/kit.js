@@ -14,7 +14,14 @@ export class Cancelled extends Error {}
 
 export function createEngine({ caption, lines }) {
   const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  const ac = AudioCtx ? new AudioCtx() : null;
+  // Embedded in the application film, play through its already-unlocked audio context.
+  let shared = null;
+  try {
+    if (window.parent !== window) shared = window.parent.filmAudio || null;
+  } catch {
+    // A different origin: use our own context.
+  }
+  const ac = shared || (AudioCtx ? new AudioCtx() : null);
   const buffers = {};
   let master = null;
   let music = null;
@@ -26,6 +33,7 @@ export function createEngine({ caption, lines }) {
     master = ac.createGain();
     master.connect(ac.destination);
     music = createMusic(ac, master);
+    if (shared) addEventListener("pagehide", () => master.disconnect());
   }
 
   const voiceReady = (async () => {
@@ -169,6 +177,13 @@ export function createEngine({ caption, lines }) {
     stop(fade = 2) {
       halt();
       music?.fadeOut(fade);
+    },
+    // Silences everything this engine put on the audio graph (used when embedded).
+    dispose() {
+      halt();
+      if (!master) return;
+      master.gain.setTargetAtTime(0, ac.currentTime, 0.08);
+      setTimeout(() => master.disconnect(), 400);
     },
     setLevel(level) {
       music?.setLevel(level);
