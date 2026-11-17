@@ -88,14 +88,14 @@ This file is the durable working memory for the David Demos landing-page project
 
 - User authorized adding Capacity (their time tracker, source `/home/david/Time - Resource Management`, private repo Daaveq/time-tracker) on 2026-10-17. `demos.html` card 07 links to `https://capacity.daviddemos.com` and states a password is required. Never publish the password or the MCP token. The Capacity repo owns the app, tunnel `capacity`, and hosting notes.
 - Published through `npm run publish:production` on 2026-10-17 from `feat/capacity-link`; the live directory contains the card, the 07/07 numbering and the six-live count.
-- Production is ahead of `main`: Campus, Writer MVP and Capacity were published from unmerged branches (`feat/capacity-link` contains all of them). Merging to `main` needs explicit user authorization.
+- On 2026-11-17 David asked for the work to go on `main`; `main` was fast-forwarded to `feat/novo-application`, which also brought in the already-published Campus, Writer MVP and Capacity commits. `main` and production now match. Future merges to `main` still need an explicit request.
 - Known issue (pre-existing, all cards): in 8-bit mode `.card-status` uses `background: currentColor` with `color: var(--ink)`, so the Live badge text is invisible.
 
 ## Applications
 
 - Job applications live in this repo under `applications/<company>/`, by David's decision on 2026-11-17: he wants the context kept in David Demos rather than in separate repos. They are not portfolio demos: keep them out of `demos.html`, keep `noindex`, and publish only on David's explicit go-ahead.
 - `applications/novo/` is David's interactive application for AI Upskilling & Adoption Lead at Novo Nordisk (deadline 23 November 2026), modelled on a reference video of a film-style job application: painted opening, narrator orb, story, kinetic type, product-style mock, end card. Local URL: `http://127.0.0.1:4173/applications/novo/` via `npm run dev`; `?scene=N` jumps to a chapter.
-- `npm run publish:novo` copies it to `.production/applications/novo/`. As of 2026-11-17 it has not been run.
+- Published on 2026-11-17 at David's request: live at `https://daviddemos.com/applications/novo/` (unlisted, `noindex`), via `npm run publish:novo`, which copies it to `.production/applications/novo/`. Rerun that command after any change.
 - Narration is generated at build time by `npm run voice:novo` and needs `OPENAI_API_KEY` in the git-ignored `applications/novo/.env`. The nine clips in `applications/novo/audio/` were generated on 2026-11-17 with `gpt-4o-mini-tts`, voice `ash`, and are committed; rerun the command after editing `narration.js`. With voice the film runs roughly two minutes.
 - Content rules: no Novo Nordisk logo or brand assets, tool tiles are letter glyphs rather than vendor logos, the story and session examples are labelled illustrative, and nothing claims experience David has not confirmed.
 - The earlier standalone private repo `Daaveq/novo-application` (and `/home/david/novo-application`) holds the same first commit and is now superseded; deleting or archiving it needs David's say-so.
